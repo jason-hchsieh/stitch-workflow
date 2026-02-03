@@ -17,7 +17,7 @@ if [ ! -f ".workflow/state/session_state.json" ]; then
   cat > .workflow/state/session_state.json <<EOF
 {
   "session_id": "$(uuidgen 2>/dev/null || echo "session-$(date +%s)")",
-  "started_at": "$(date -Iseconds)",
+  "started_at": "$(date -Iseconds 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)",
   "current_track": null,
   "discovered_capabilities": {
     "agents": [],

@@ -30,7 +30,7 @@ Agent evaluates architectural quality and pattern usage
 </example>
 
 model: inherit
-color: cyan
+color: yellow
 tools: ["Read", "Grep", "Glob", "Bash"]
 ---
 

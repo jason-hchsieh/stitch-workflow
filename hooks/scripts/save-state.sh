@@ -14,11 +14,13 @@ if [ -f ".workflow/state/session_state.json" ]; then
   # Use jq if available, otherwise simple append
   if command -v jq &> /dev/null; then
     tmp=$(mktemp)
-    jq --arg ended "$(date -Iseconds)" '. + {ended_at: $ended}' .workflow/state/session_state.json > "$tmp"
+    ended_at="$(date -Iseconds 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)"
+    jq --arg ended "$ended_at" '. + {ended_at: $ended}' .workflow/state/session_state.json > "$tmp"
     mv "$tmp" .workflow/state/session_state.json
   else
     # Fallback: just note the session ended
-    echo "Session ended at $(date -Iseconds)" >> .workflow/state/session_state.json.log
+    ended_at="$(date -Iseconds 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)"
+    echo "Session ended at $ended_at" >> .workflow/state/session_state.json.log
   fi
 fi
 
