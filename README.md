@@ -35,10 +35,17 @@ flowchart TD
     Phase2 --> CreatePlan[Create Implementation Plan<br/>Task Breakdown + Dependencies]
     CreatePlan --> Phase3[3: Capability Discovery]
     Phase3 --> VerifyCaps[Verify Agents/Skills/MCPs<br/>Available]
-    VerifyCaps --> Phase4
+    VerifyCaps --> CheckTasks{Multiple<br/>Tasks?}
 
-    %% Phase 4: Implementation
-    Phase4[4: Implementation] --> TDD[Iron Law TDD]
+    %% Phase 4: Implementation - Parallel First
+    CheckTasks -->|Yes| Parallel[4: Parallel Execution<br/>Git Worktrees DEFAULT]
+    Parallel --> TaskScheduler[Task Scheduler<br/>Resolve DAG Dependencies]
+    TaskScheduler --> SpawnAgents[Spawn Agent Per Task<br/>with Fresh Context]
+    SpawnAgents --> ParallelTDD[Each Agent: Iron Law TDD]
+    ParallelTDD --> Phase45
+
+    CheckTasks -->|No| Phase4Single[4: Single Task Implementation]
+    Phase4Single --> TDD[Iron Law TDD]
     TDD --> RED[1. Write Test FIRST]
     RED --> VerifyRed[2. Verify Test FAILS]
     VerifyRed --> GREEN[3. Implement Minimum Code]
@@ -46,14 +53,7 @@ flowchart TD
     VerifyGreen --> EdgeCases[5. Add Edge Case Tests]
     EdgeCases --> HandleEdges[6. Handle Edge Cases]
     HandleEdges --> AllTests[7. Run Full Test Suite]
-    AllTests --> Phase4C{Multiple<br/>Tasks?}
-
-    %% Parallel Execution
-    Phase4C -->|Yes| Parallel[4C: Parallel Execution<br/>Git Worktrees]
-    Parallel --> TaskScheduler[Task Scheduler<br/>DAG Dependencies]
-    TaskScheduler --> SpawnAgents[Spawn Agents<br/>Per Task]
-    SpawnAgents --> Phase45
-    Phase4C -->|No| Phase45
+    AllTests --> Phase45
 
     %% Phase 4.5: Verification
     Phase45[4.5: Verification] --> EvidenceCheck[Evidence-Based Check<br/>NO 'should work']
