@@ -6,6 +6,144 @@ A meta-workflow orchestration plugin for Claude Code that implements systematic 
 
 > Each unit of work should make subsequent units easier through compounding knowledge and systematic processes.
 
+## Workflow Overview
+
+```mermaid
+flowchart TD
+    Start([Session Start]) --> CheckProject{Project<br/>Exists?}
+
+    %% Phase -1: Bootstrap
+    CheckProject -->|No| Bootstrap[-1: Project Bootstrap]
+    Bootstrap --> Interactive[Interactive Setup<br/>One Question at a Time]
+    Interactive --> CreateStructure[Create .workflow/<br/>Directory Structure]
+    CreateStructure --> GitInit[Initialize Git<br/>MANDATORY]
+    GitInit --> Phase0
+
+    %% Phase 0: Context Loading
+    CheckProject -->|Yes| Phase0[0: Context Loading]
+    Phase0 --> LoadContext[Load Project Context<br/>product.md, tech-stack.md]
+    LoadContext --> LoadKnowledge[Load Institutional Knowledge<br/>solutions/, learned/]
+    LoadKnowledge --> DiscoverCaps[Discover Capabilities<br/>All Plugin Scopes]
+    DiscoverCaps --> Phase1
+
+    %% Phase 1-3: Understanding & Planning
+    Phase1[1: Understanding] --> Analyze[Analyze Requirements<br/>Estimate Complexity]
+    Analyze --> Research{Need External<br/>Research?}
+    Research -->|Yes| Phase15[1.5: Research]
+    Research -->|No| Phase2
+    Phase15 --> Phase2[2: Design & Planning]
+    Phase2 --> CreatePlan[Create Implementation Plan<br/>Task Breakdown + Dependencies]
+    CreatePlan --> Phase3[3: Capability Discovery]
+    Phase3 --> VerifyCaps[Verify Agents/Skills/MCPs<br/>Available]
+    VerifyCaps --> Phase4
+
+    %% Phase 4: Implementation
+    Phase4[4: Implementation] --> TDD[Iron Law TDD]
+    TDD --> RED[1. Write Test FIRST]
+    RED --> VerifyRed[2. Verify Test FAILS]
+    VerifyRed --> GREEN[3. Implement Minimum Code]
+    GREEN --> VerifyGreen[4. Verify Test PASSES]
+    VerifyGreen --> EdgeCases[5. Add Edge Case Tests]
+    EdgeCases --> HandleEdges[6. Handle Edge Cases]
+    HandleEdges --> AllTests[7. Run Full Test Suite]
+    AllTests --> Phase4C{Multiple<br/>Tasks?}
+
+    %% Parallel Execution
+    Phase4C -->|Yes| Parallel[4C: Parallel Execution<br/>Git Worktrees]
+    Parallel --> TaskScheduler[Task Scheduler<br/>DAG Dependencies]
+    TaskScheduler --> SpawnAgents[Spawn Agents<br/>Per Task]
+    SpawnAgents --> Phase45
+    Phase4C -->|No| Phase45
+
+    %% Phase 4.5: Verification
+    Phase45[4.5: Verification] --> EvidenceCheck[Evidence-Based Check<br/>NO 'should work']
+    EvidenceCheck --> RunTests[Run All Tests]
+    RunTests --> Coverage[Check Coverage ≥80%]
+    Coverage --> Lint[Run Linters]
+    Lint --> Build[Verify Build]
+    Build --> ContextCheck{Context<br/>>80%?}
+
+    %% Phase 4.5B: Context Management
+    ContextCheck -->|Yes| Phase45B[4.5B: Context Sync]
+    Phase45B --> Summarize[Summarize Work<br/>≤500 tokens]
+    Summarize --> UpdateProgress[Update progress.md]
+    UpdateProgress --> SpawnFresh[Spawn Fresh Agent<br/>with Compressed Context]
+    SpawnFresh --> Phase5
+    ContextCheck -->|No| Phase5
+
+    %% Phase 5: Two-Stage Review
+    Phase5[5: Review] --> Stage1[Stage 1: Spec Compliance]
+    Stage1 --> SpecCheck{Meets All<br/>Requirements?}
+    SpecCheck -->|No| FixSpec[Fix Missing Requirements]
+    FixSpec --> Phase4
+    SpecCheck -->|Yes| Stage2[Stage 2: Code Quality Review<br/>Parallel Multi-Agent]
+    Stage2 --> Security[Security Analysis<br/>OWASP + AI-specific]
+    Stage2 --> Performance[Performance Analysis<br/>Algorithms + Bottlenecks]
+    Stage2 --> Architecture[Architecture Review<br/>Patterns + Design]
+    Security --> CombineReview[Combine Reviews]
+    Performance --> CombineReview
+    Architecture --> CombineReview
+    CombineReview --> CriticalIssues{Critical<br/>Issues?}
+    CriticalIssues -->|Yes| FixIssues[Fix Critical Issues]
+    FixIssues --> Phase4
+    CriticalIssues -->|No| Phase6
+
+    %% Phase 6: Knowledge Capture
+    Phase6[6: Finalization] --> Commit[Git Commit<br/>with Co-Author]
+    Commit --> CreatePR[Create Pull Request<br/>MCP or CLI]
+    CreatePR --> Phase6E[6E: Pattern Detection]
+    Phase6E --> DetectPatterns[Detect 3+ Similar Solutions]
+    DetectPatterns --> PromotePattern{Pattern<br/>Found?}
+    PromotePattern -->|Yes| UpdateCritical[Update critical-patterns.md]
+    UpdateCritical --> Phase6ESkill
+    PromotePattern -->|No| Phase6F
+    Phase6ESkill{Generate<br/>Skill?}
+    Phase6ESkill -->|Yes| GenSkill[Auto-Generate Skill<br/>from Pattern]
+    GenSkill --> Phase6F
+    Phase6ESkill -->|No| Phase6F
+
+    Phase6F[6F: Store Learned Knowledge] --> CaptureSolution[Capture Solution<br/>with YAML Validation]
+    CaptureSolution --> CaptureDecision[Capture Decisions<br/>.workflow/learned/decisions/]
+    CaptureDecision --> CaptureConvention[Detect Conventions<br/>.workflow/learned/conventions/]
+    CaptureConvention --> UpdatePrefs[Update Preferences<br/>.workflow/learned/preferences.yaml]
+    UpdatePrefs --> TrackAntiPattern[Track Anti-Patterns<br/>.workflow/learned/anti-patterns/]
+    TrackAntiPattern --> RecordPrompt[Record Effective Prompts<br/>.workflow/learned/effective-prompts/]
+    RecordPrompt --> UpdateMetrics[Update Session Metrics]
+    UpdateMetrics --> Done([Work Complete])
+
+    %% Feedback Loops
+    Done -.->|Knowledge<br/>Compounds| Phase0
+    UpdateCritical -.->|Pattern<br/>→ Skill| Phase3
+    RecordPrompt -.->|Learning<br/>→ Better Work| Phase4
+
+    %% Styling
+    classDef bootstrap fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    classDef context fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    classDef planning fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef implementation fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    classDef verification fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef review fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef finalization fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    classDef decision fill:#fff,stroke:#666,stroke-width:2px,stroke-dasharray: 5 5
+
+    class Bootstrap,Interactive,CreateStructure,GitInit bootstrap
+    class Phase0,LoadContext,LoadKnowledge,DiscoverCaps context
+    class Phase1,Analyze,Phase15,Phase2,CreatePlan,Phase3,VerifyCaps planning
+    class Phase4,TDD,RED,VerifyRed,GREEN,VerifyGreen,EdgeCases,HandleEdges,AllTests,Parallel,TaskScheduler,SpawnAgents implementation
+    class Phase45,EvidenceCheck,RunTests,Coverage,Lint,Build,Phase45B,Summarize,UpdateProgress,SpawnFresh verification
+    class Phase5,Stage1,Stage2,Security,Performance,Architecture,CombineReview,FixSpec,FixIssues review
+    class Phase6,Commit,CreatePR,Phase6E,DetectPatterns,UpdateCritical,GenSkill,Phase6F,CaptureSolution,CaptureDecision,CaptureConvention,UpdatePrefs,TrackAntiPattern,RecordPrompt,UpdateMetrics finalization
+    class CheckProject,Research,Phase4C,ContextCheck,SpecCheck,CriticalIssues,PromotePattern,Phase6ESkill decision
+```
+
+**Key Features:**
+- 🔄 **Feedback Loops**: Knowledge compounds across sessions
+- ⚡ **Parallel Execution**: Default mode with dependency management
+- 🧪 **Iron Law TDD**: 11-step test-first cycle enforced
+- 🎯 **Evidence-Based**: No "should work" - only verified proof
+- 🧠 **Context Management**: Auto-sync at 80% threshold
+- 📚 **Knowledge Capture**: Solutions → Patterns → Skills
+
 ## Features
 
 ### 🎯 Comprehensive Workflow Phases
