@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" alt="Mycelium Logo" width="200"/>
+  <img src="logo.png" alt="Mycelium Logo" width="400"/>
 
   # Mycelium
 
