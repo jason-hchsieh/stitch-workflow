@@ -176,7 +176,35 @@ Tasks (2-5 min atomic units):
 
 **Git Strategy:**
 - **One feature** → `git checkout -b feature/name`
-- **Multiple features** → Git worktrees (`.worktrees/feature-name/`)
+- **Multiple features** → Git worktrees in `.worktrees/` directory
+
+**Worktree Storage:**
+```
+project-root/
+├── .worktrees/              # Git worktrees (gitignored)
+│   ├── feature-oauth/       # Feature 1 worktree + branch
+│   ├── feature-login-ui/    # Feature 2 worktree + branch
+│   └── feature-session/     # Feature 3 worktree + branch
+├── .workflow/               # Workflow metadata
+├── .gitignore               # Includes .worktrees/
+└── src/                     # Main source
+```
+
+**Commands:**
+```bash
+# Create worktree for each feature
+git worktree add .worktrees/feature-oauth -b feature/oauth-integration
+git worktree add .worktrees/feature-login-ui -b feature/login-ui
+git worktree add .worktrees/feature-session -b feature/session-mgmt
+
+# Each agent works in its own worktree
+cd .worktrees/feature-oauth && [agent executes tasks]
+cd .worktrees/feature-login-ui && [agent executes tasks]
+cd .worktrees/feature-session && [agent executes tasks]
+
+# Cleanup after merge
+git worktree remove .worktrees/feature-oauth
+```
 
 ### 📚 Knowledge Compounding System
 
