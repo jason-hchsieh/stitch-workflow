@@ -112,7 +112,7 @@ flowchart TD
 
     %% Feedback Loops
     Done -.->|Knowledge<br/>Compounds| Phase0
-    UpdateCritical -.->|Pattern<br/>→ Skill| Phase3
+    UpdateCritical -.->|Pattern<br/>→ Skill| Phase0
     RecordPrompt -.->|Learning<br/>→ Better Work| Phase4
 
     %% Styling
