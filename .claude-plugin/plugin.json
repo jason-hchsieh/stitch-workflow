@@ -1,19 +1,22 @@
 {
-  "name": "adaptive-workflow",
+  "name": "mycelium",
   "version": "0.1.0",
-  "description": "Adaptive AI Development Workflow - A meta-workflow orchestration plugin for Claude Code implementing systematic development with compounding knowledge capture",
+  "description": "Mycelium - The intelligent substrate beneath your code. A meta-workflow orchestration plugin for Claude Code that creates a learning knowledge layer with compounding capability",
   "author": {
-    "name": "Adaptive Workflow Contributors",
-    "email": "contributors@adaptive-workflow.dev"
+    "name": "Jason Hsieh",
+    "email": "jason.hchsieh@gmail.com"
   },
   "keywords": [
+    "mycelium",
     "workflow",
     "tdd",
     "orchestration",
     "knowledge-management",
     "compound-engineering",
     "git-worktrees",
-    "systematic-development"
+    "systematic-development",
+    "adaptive",
+    "learning"
   ],
   "license": "MIT"
 }
