@@ -37,7 +37,7 @@ Find skills in this plugin:
 
 ```bash
 # Find all SKILL.md files in workflow plugin
-find /home/jasonhch/dev/workspace-claude-code/adaptive-workflow/skills \
+find ${CLAUDE_PLUGIN_ROOT}/skills \
   -name "SKILL.md" -type f
 
 # Read frontmatter from each
@@ -319,7 +319,7 @@ Show complete information for each skill:
 
 ### 1. Context Window Management
 **Scope:** Workflow (Core)
-**File:** /home/jasonhch/dev/workspace-claude-code/adaptive-workflow/skills/context/SKILL.md
+**File:** ${CLAUDE_PLUGIN_ROOT}/skills/context/SKILL.md
 **Version:** 0.1.0
 **Auto-trigger:** Manual
 **Generated:** No

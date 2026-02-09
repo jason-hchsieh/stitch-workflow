@@ -231,7 +231,7 @@ Based on context usage:
 
 This command implements the procedures from the **Context Window Management** skill:
 - Load skill: `adaptive-workflow:context`
-- Reference: `/home/jasonhch/dev/workspace-claude-code/adaptive-workflow/skills/context/SKILL.md`
+- Reference: `${CLAUDE_PLUGIN_ROOT}/skills/context/SKILL.md`
 - Apply thresholds, compression techniques, and handoff protocols from skill
 
 **Key principles from skill:**
