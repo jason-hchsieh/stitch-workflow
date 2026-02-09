@@ -1,3 +1,9 @@
+---
+name: Two-Stage Code Review
+description: This skill should be used when the user asks to "review code", "check code quality", "review changes", or during the review phase of the workflow. Guides comprehensive code review with two sequential stages: spec compliance (blocking) and quality assessment (parallel).
+version: 0.1.0
+---
+
 # Two-Stage Code Review Workflow
 
 This skill guides you through comprehensive code review with two sequential stages: spec compliance (blocking) and quality assessment (parallel).

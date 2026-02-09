@@ -1,3 +1,9 @@
+---
+name: Autonomous Workflow Orchestration
+description: This skill should be used when the user asks to "run the full workflow", "execute autonomously", "workflow go", or wants end-to-end autonomous development. Guides autonomous execution of the complete mycelium workflow: plan → work → review → capture.
+version: 0.1.0
+---
+
 # Autonomous Workflow Orchestration
 
 This skill guides autonomous execution of the complete mycelium workflow: plan → work → review → capture.

@@ -1,3 +1,9 @@
+---
+name: Project Setup
+description: This skill should be used when the user asks to "set up a project", "initialize workflow", "bootstrap project", or when adding mycelium to a new or existing project. Guides bootstrapping a project with the mycelium workflow structure.
+version: 0.1.0
+---
+
 # Project Setup Workflow
 
 This skill guides you through bootstrapping a project with the mycelium workflow structure.
