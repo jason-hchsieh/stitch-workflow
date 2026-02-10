@@ -1,5 +1,5 @@
 ---
-name: workflow:continue
+name: workflow-continue
 description: Resume interrupted workflow from last checkpoint
 argument-hint: "[--full]"
 allowed-tools: ["Skill", "Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "AskUserQuestion"]
@@ -17,7 +17,7 @@ Resume interrupted work with context-aware scope detection.
 2. **Load session state**:
    - Read `.workflow/state/session_state.json`
    - Identify `current_phase`, checkpoints, and `invocation_mode`
-   - If no state found → error: "No workflow state found. Start with `/workflow:go` or `/workflow:plan`."
+   - If no state found → error: "No workflow state found. Start with `/workflow-go` or `/workflow-plan`."
 
 3. **Restore mid-phase context**:
    - Read `.workflow/state/progress.md` for completed work summary
@@ -29,8 +29,8 @@ Resume interrupted work with context-aware scope detection.
    | Condition | Behavior |
    |-----------|----------|
    | `--full` flag provided | Load orchestration skill, resume current phase, chain through ALL remaining phases to end |
-   | `invocation_mode == "full"` (started via `/workflow:go`) | Load orchestration skill, resume current phase, chain through ALL remaining phases to end |
-   | `invocation_mode == "single"` (started via `/workflow:[phase]`) | Load appropriate phase skill, finish current phase ONLY |
+   | `invocation_mode == "full"` (started via `/workflow-go`) | Load orchestration skill, resume current phase, chain through ALL remaining phases to end |
+   | `invocation_mode == "single"` (started via `/workflow-[phase]`) | Load appropriate phase skill, finish current phase ONLY |
    | No `invocation_mode` in state | Treat as `"single"` — finish current phase only |
 
 5. **Load appropriate skill and execute**:
@@ -44,7 +44,7 @@ Resume interrupted work with context-aware scope detection.
    - Map `current_phase` to skill:
      - `planning` → Load `workflow/planning` skill
      - `implementation` → Load `workflow/tdd` + `workflow/verification` skills
-     - `review` → Load `workflow/review-process` skill
+     - `review` → Load `workflow/review` skill
      - `capture` → Load `workflow/solution-capture` skill
    - Resume from checkpoint within that phase
    - Stop after phase completion
@@ -61,28 +61,28 @@ Varies based on continuation scope:
 **Single mode** (one of):
 - **planning**: If interrupted during plan phase
 - **tdd** + **verification**: If interrupted during work phase
-- **review-process**: If interrupted during review phase
+- **review**: If interrupted during review phase
 - **solution-capture**: If interrupted during capture phase
 
 ## Quick Examples
 
 ```bash
 # Resume with context-aware scope (finishes what was originally started)
-/workflow:continue
+/workflow-continue
 
 # Override to full mode — run all remaining phases regardless
-/workflow:continue --full
+/workflow-continue --full
 ```
 
 ## Behavior Summary
 
-| Original command | `/workflow:continue` | `/workflow:continue --full` |
-|-----------------|---------------------|---------------------------|
-| `/workflow:go` | Resume → finish all remaining phases | Same |
-| `/workflow:plan` | Resume → finish plan phase only | Resume → finish all remaining phases |
-| `/workflow:work` | Resume → finish work phase only | Resume → finish all remaining phases |
-| `/workflow:review` | Resume → finish review phase only | Resume → finish all remaining phases |
-| `/workflow:capture` | Resume → finish capture phase only | Resume → finish all remaining phases |
+| Original skill | `/workflow-continue` | `/workflow-continue --full` |
+|---------------|---------------------|---------------------------|
+| `/workflow-go` | Resume → finish all remaining phases | Same |
+| `/workflow-plan` | Resume → finish plan phase only | Resume → finish all remaining phases |
+| `/workflow-work` | Resume → finish work phase only | Resume → finish all remaining phases |
+| `/workflow-review` | Resume → finish review phase only | Resume → finish all remaining phases |
+| `/workflow-capture` | Resume → finish capture phase only | Resume → finish all remaining phases |
 
 ## Important
 

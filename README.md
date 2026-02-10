@@ -279,7 +279,7 @@ git clone https://github.com/jason-hchsieh/mycelium ~/.claude/plugins/mycelium
 ### 1. Initialize a Project
 
 ```bash
-/workflow:setup
+/workflow-setup
 ```
 
 This creates the `.workflow/` directory structure:
@@ -307,7 +307,7 @@ This creates the `.workflow/` directory structure:
 ### 2. Create an Implementation Plan
 
 ```bash
-/workflow:plan "Add user authentication"
+/workflow-plan "Add user authentication"
 ```
 
 Creates a detailed plan with:
@@ -320,7 +320,7 @@ Creates a detailed plan with:
 ### 3. Execute the Plan
 
 ```bash
-/workflow:work
+/workflow-work
 ```
 
 Executes tasks with:
@@ -332,7 +332,7 @@ Executes tasks with:
 ### 4. Review Implementation
 
 ```bash
-/workflow:review
+/workflow-review
 ```
 
 Two-stage review:
@@ -342,7 +342,7 @@ Two-stage review:
 ### 5. Capture Knowledge
 
 ```bash
-/workflow:compound
+/workflow-capture
 ```
 
 Captures:
@@ -358,40 +358,40 @@ Captures:
 
 | Skill | Description | Interaction |
 |-------|-------------|-------------|
-| **`/workflow:go [task] [--interactive]`** | **Full autonomous workflow** (plan → work → review → capture) | Minimal (autonomous) or phase approvals (interactive) |
-| `/workflow:setup [--resume]` | Bootstrap project with mycelium structure | Interactive setup questions |
-| `/workflow:plan [description]` | Create implementation plan with TDD task breakdown | Clarifying questions |
-| `/workflow:work [task_id\|all]` | Execute tasks with strict TDD enforcement | Autonomous with progress updates |
-| `/workflow:review [--stage=1\|2\|all]` | Two-stage review (spec compliance + quality) | Report with decision point |
-| `/workflow:capture [track_id]` | Extract learnings and grow knowledge layer | Autonomous knowledge capture |
+| **`/workflow-go [task] [--interactive]`** | **Full autonomous workflow** (plan → work → review → capture) | Minimal (autonomous) or phase approvals (interactive) |
+| `/workflow-setup [--resume]` | Bootstrap project with mycelium structure | Interactive setup questions |
+| `/workflow-plan [description]` | Create implementation plan with TDD task breakdown | Clarifying questions |
+| `/workflow-work [task_id\|all]` | Execute tasks with strict TDD enforcement | Autonomous with progress updates |
+| `/workflow-review [--stage=1\|2\|all]` | Two-stage review (spec compliance + quality) | Report with decision point |
+| `/workflow-capture [track_id]` | Extract learnings and grow knowledge layer | Autonomous knowledge capture |
 
 ### Utility Skills
 
 | Skill | Description |
 |-------|-------------|
-| `/workflow:status [--verbose]` | Display current progress and state |
-| `/workflow:continue [--full]` | Resume interrupted work from checkpoint |
+| `/workflow-status [--verbose]` | Display current progress and state |
+| `/workflow-continue [--full]` | Resume interrupted work from checkpoint |
 
 ### Usage Patterns
 
 **🚀 Quick Start (Autonomous)**
 ```bash
-/workflow:go "Add user authentication with JWT"
+/workflow-go "Add user authentication with JWT"
 # Runs full workflow with minimal interaction
 ```
 
 **🎯 Controlled (Interactive)**
 ```bash
-/workflow:go "Add user login" --interactive
+/workflow-go "Add user login" --interactive
 # Asks for approval after each phase
 ```
 
 **🔧 Manual (Step-by-Step)**
 ```bash
-/workflow:plan "Add user login"
-/workflow:work all
-/workflow:review
-/workflow:capture
+/workflow-plan "Add user login"
+/workflow-work all
+/workflow-review
+/workflow-capture
 # Full control over each phase
 ```
 
@@ -420,22 +420,22 @@ All plugin functionality is implemented as skills (following the [Agent Skills s
 
 | Skill | Purpose | Used By |
 |-------|---------|---------|
-| **setup-guide** | Project initialization (greenfield/brownfield detection, interactive config) | `workflow:setup` |
-| **planning** | Requirements clarification, smart research gate, task breakdown | `workflow:plan` |
-| **tdd** | Iron Law TDD - RED → GREEN → REFACTOR enforcement | `workflow:work`, `workflow:go` |
-| **verification** | Evidence-based validation (show actual test output) | `workflow:work`, `workflow:go` |
-| **review-process** | Two-stage review (spec compliance + parallel quality assessment) | `workflow:review`, `workflow:go` |
-| **solution-capture** | Knowledge extraction, pattern detection, learning documentation | `workflow:capture`, `workflow:go` |
-| **orchestration** | Autonomous workflow execution with decision gates | `workflow:go`, `workflow:continue` |
+| **setup** | Project initialization (greenfield/brownfield detection, interactive config) | `workflow-setup` |
+| **planning** | Requirements clarification, smart research gate, task breakdown | `workflow-plan` |
+| **tdd** | Iron Law TDD - RED → GREEN → REFACTOR enforcement | `workflow-work`, `workflow-go` |
+| **verification** | Evidence-based validation (show actual test output) | `workflow-work`, `workflow-go` |
+| **review** | Two-stage review (spec compliance + parallel quality assessment) | `workflow-review`, `workflow-go` |
+| **solution-capture** | Knowledge extraction, pattern detection, learning documentation | `workflow-capture`, `workflow-go` |
+| **orchestration** | Autonomous workflow execution with decision gates | `workflow-go`, `workflow-continue` |
 | **context** | Project context loading and management | All skills |
 | **recovery** | Handle blockers and stuck states | As needed |
 
 ### Skill Architecture
 
-Commands are **thin wrappers** that delegate to skills:
-- **Commands** (~20-60 lines): Parse args, load skills, provide context
-- **Skills** (detailed guides): Contain all workflow logic and best practices
-- **Benefit**: Update workflow once (in skill), affects all commands using it
+User-facing skills are **thin wrappers** that delegate to internal skills:
+- **User-facing skills** (~20-60 lines): Parse args, load internal skills, provide context
+- **Internal skills** (detailed guides): Contain all workflow logic and best practices
+- **Benefit**: Update workflow once (in internal skill), affects all user-facing skills using it
 
 ## Agents
 
@@ -545,22 +545,22 @@ mycelium/
 │   │   └── code-quality.md
 │   └── learning-agent.md
 ├── skills/
+│   ├── workflow-go/          # User-facing: full autonomous workflow
+│   ├── workflow-plan/        # User-facing: create implementation plan
+│   ├── workflow-work/        # User-facing: execute tasks with TDD
+│   ├── workflow-review/      # User-facing: two-stage code review
+│   ├── workflow-capture/     # User-facing: extract learnings
+│   ├── workflow-continue/    # User-facing: resume interrupted workflow
+│   ├── workflow-status/      # User-facing: display progress
+│   ├── workflow-setup/       # User-facing: bootstrap project
 │   ├── workflow/
-│   │   ├── go/               # User-facing: full autonomous workflow
-│   │   ├── plan/             # User-facing: create implementation plan
-│   │   ├── work/             # User-facing: execute tasks with TDD
-│   │   ├── review/           # User-facing: two-stage code review
-│   │   ├── capture/          # User-facing: extract learnings
-│   │   ├── continue/         # User-facing: resume interrupted workflow
-│   │   ├── status/           # User-facing: display progress
-│   │   ├── setup/            # User-facing: bootstrap project
 │   │   ├── orchestration/    # Internal: autonomous execution engine
 │   │   ├── planning/         # Internal: task breakdown guidance
 │   │   ├── tdd/              # Internal: TDD enforcement
 │   │   ├── verification/     # Internal: evidence-based validation
-│   │   ├── review-process/   # Internal: review workflow guidance
+│   │   ├── review/           # Internal: review workflow guidance
 │   │   ├── solution-capture/ # Internal: knowledge extraction
-│   │   └── setup-guide/      # Internal: setup workflow guidance
+│   │   └── setup/            # Internal: setup workflow guidance
 │   ├── context/              # Internal: context window management
 │   └── recovery/             # Internal: recovery protocols
 ├── hooks/
@@ -625,7 +625,7 @@ Tests first, implementation second. No exceptions.
 Every non-trivial fix should be captured in `.workflow/solutions/`.
 
 ### 3. Plan Before Implementing
-Use `/workflow:plan` to break down work systematically.
+Use `/workflow-plan` to break down work systematically.
 
 ### 4. Leverage Parallelism
 Design tasks with minimal dependencies for maximum parallelism.
@@ -637,12 +637,12 @@ Update plans when requirements change, log reasons in deviations section.
 Use two-stage review: spec compliance first, code quality second.
 
 ### 7. Capture Knowledge
-Run `/workflow:compound` after completing work to build institutional knowledge.
+Run `/workflow-capture` after completing work to build institutional knowledge.
 
 ## Troubleshooting
 
 ### "No .workflow directory found"
-Run `/workflow:setup` to initialize the project.
+Run `/workflow-setup` to initialize the project.
 
 ### "Cannot create worktree"
 Ensure you're in a git repository and the branch doesn't already have a worktree.
@@ -673,7 +673,7 @@ npm run coverage
 1. Fork the repository
 2. Create a feature branch
 3. Follow the Iron Law TDD
-4. Run `/workflow:review` before submitting
+4. Run `/workflow-review` before submitting
 5. Document solutions in PR description
 6. Submit pull request
 
@@ -698,8 +698,4 @@ Built for **Claude Code** by Anthropic.
 
 ## Version
 
-**v0.1.0** - Initial release
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for version history.
+See `plugin.json` for current version. Uses [semantic versioning](https://semver.org/).

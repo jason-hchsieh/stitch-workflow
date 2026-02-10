@@ -1,5 +1,5 @@
 ---
-name: workflow:status
+name: workflow-status
 description: Display current workflow progress and state
 argument-hint: "[--verbose]"
 allowed-tools: ["Read", "Bash", "Glob"]
@@ -36,11 +36,11 @@ Display current workflow state and progress dashboard.
    ```
 
 3. **Suggest next action** based on state:
-   - No plan → `/workflow:plan`
-   - Plan exists, tasks pending → `/workflow:work`
-   - All tasks complete → `/workflow:review`
-   - Review complete → `/workflow:capture`
-   - Blockers detected → Address blockers or use `/workflow:continue`
+   - No plan → `/workflow-plan`
+   - Plan exists, tasks pending → `/workflow-work`
+   - All tasks complete → `/workflow-review`
+   - Review complete → `/workflow-capture`
+   - Blockers detected → Address blockers or use `/workflow-continue`
 
 4. **Verbose mode** (`--verbose`):
    - Detailed task breakdown by phase
@@ -52,8 +52,8 @@ Display current workflow state and progress dashboard.
 ## Quick Example
 
 ```bash
-/workflow:status       # Standard view
-/workflow:status -v    # Verbose view with details
+/workflow-status       # Standard view
+/workflow-status -v    # Verbose view with details
 ```
 
 ## Important

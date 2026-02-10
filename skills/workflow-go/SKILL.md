@@ -1,5 +1,5 @@
 ---
-name: workflow:go
+name: workflow-go
 description: Execute full workflow autonomously (plan → work → review → capture)
 argument-hint: "[task description] [--interactive]"
 allowed-tools: ["Skill", "Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "AskUserQuestion"]
@@ -34,7 +34,7 @@ Execute the complete mycelium workflow autonomously from planning to knowledge c
    - Autonomous: Auto-continue unless blocked | Interactive: Show progress, ask to continue
 
    **Phase 3: Review**
-   - Load `review-process` skill
+   - Load `review` skill
    - Run two-stage review (spec + quality)
    - Autonomous: Accept P2/P3, stop on P1 | Interactive: Ask whether to fix or accept
 
@@ -52,20 +52,20 @@ Execute the complete mycelium workflow autonomously from planning to knowledge c
 - **planning**: Requirements → tasks
 - **tdd**: RED → GREEN → REFACTOR enforcement
 - **verification**: Evidence-based validation
-- **review-process**: Two-stage quality check
+- **review**: Two-stage quality check
 - **solution-capture**: Knowledge extraction
 
 ## Quick Examples
 
 ```bash
 # Autonomous mode (minimal interaction)
-/workflow:go "Add user authentication"
+/workflow-go "Add user authentication"
 
 # Interactive mode (approval at each phase)
-/workflow:go "Optimize database queries" --interactive
+/workflow-go "Optimize database queries" --interactive
 
 # Detailed description
-/workflow:go "Add pagination to user list API with page size limits"
+/workflow-go "Add pagination to user list API with page size limits"
 ```
 
 ## Decision Gates
@@ -114,5 +114,5 @@ Execute the complete mycelium workflow autonomously from planning to knowledge c
 - **TDD mandatory** - No code without tests first
 - **Stops on P1** - Critical issues block completion
 - **Captures knowledge** - Builds compounding intelligence
-- **Resume with `/workflow:continue`** - If interrupted, `/workflow:continue` resumes all remaining phases automatically (since `/workflow:go` sets `invocation_mode: "full"`)
-- **`--full` flag** - When resuming a single-phase command (e.g., `/workflow:work`), use `/workflow:continue --full` to run all remaining phases instead of just finishing the current one
+- **Resume with `/workflow-continue`** - If interrupted, `/workflow-continue` resumes all remaining phases automatically (since `/workflow-go` sets `invocation_mode: "full"`)
+- **`--full` flag** - When resuming a single-phase skill (e.g., `/workflow-work`), use `/workflow-continue --full` to run all remaining phases instead of just finishing the current one
