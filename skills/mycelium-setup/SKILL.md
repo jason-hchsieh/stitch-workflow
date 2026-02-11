@@ -20,7 +20,7 @@ Bootstrap a new or existing project with the mycelium workflow structure.
    - Existing setup check (resume or fresh start)
    - Project type detection (greenfield vs brownfield)
    - Interactive configuration (one question at a time)
-   - Directory structure creation (`.workflow/` hierarchy)
+   - Directory structure creation (`.mycelium/` hierarchy)
    - Git initialization (mandatory)
    - State persistence (enables resume)
 

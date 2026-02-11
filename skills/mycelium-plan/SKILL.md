@@ -21,7 +21,7 @@ Transform user request into structured, executable plan with TDD task breakdown.
 
 ### Create Plan
 
-1. **Update session state** - Write `invocation_mode: "single"` to `.workflow/state/session_state.json`
+1. **Update session state** - Write `invocation_mode: "single"` to `.mycelium/state/session_state.json`
 
 2. **Load the planning skill** - Use Skill tool to load `planning`
 
@@ -30,8 +30,8 @@ Transform user request into structured, executable plan with TDD task breakdown.
    - If empty: Ask user for task description
 
 4. **Provide context**:
-   - Read `.workflow/state/session_state.json`
-   - Read `.workflow/context/*.md` (product, tech-stack, workflow)
+   - Read `.mycelium/state/session_state.json`
+   - Read `.mycelium/context/*.md` (product, tech-stack, workflow)
    - Read `CLAUDE.md` if exists
 
 5. **Execute planning workflow** - Follow the loaded `planning` skill which handles:
@@ -40,7 +40,7 @@ Transform user request into structured, executable plan with TDD task breakdown.
    - Capability discovery (Phase 2) - check available skills/agents
    - Task breakdown and plan creation (Phase 3) - TDD-driven tasks with dependencies
 
-6. **Save plan** to `.workflow/plans/YYYY-MM-DD-{track-id}.md`
+6. **Save plan** to `.mycelium/plans/YYYY-MM-DD-{track-id}.md`
 
 7. **Register plan in session state**:
    - Read `session_state.json`
@@ -64,7 +64,7 @@ Transform user request into structured, executable plan with TDD task breakdown.
 
 ### List Plans
 
-Display all plans from `session_state.plans[]` (fall back to globbing `.workflow/plans/*.md` and reading frontmatter if `plans[]` is missing or empty).
+Display all plans from `session_state.plans[]` (fall back to globbing `.mycelium/plans/*.md` and reading frontmatter if `plans[]` is missing or empty).
 
 **Output format:**
 ```
@@ -85,7 +85,7 @@ Plans:
 Switch the active plan to `<track_id>`:
 
 1. Read `session_state.json`
-2. Find `<track_id>` in `plans[]`. If not found, check `.workflow/plans/` for a matching file and register it first. If still not found, error: "Plan `<track_id>` not found."
+2. Find `<track_id>` in `plans[]`. If not found, check `.mycelium/plans/` for a matching file and register it first. If still not found, error: "Plan `<track_id>` not found."
 3. Set the current active plan (the one with `status: "in_progress"`) to `"paused"` in both `plans[]` and its plan file frontmatter
 4. Set the target plan to `"in_progress"` in both `plans[]` and its plan file frontmatter
 5. Update `current_track` to point to the target plan
@@ -123,4 +123,4 @@ Switch the active plan to `<track_id>`:
 - Tasks have explicit dependencies (blockedBy/blocks)
 - Default to parallel execution - minimize dependencies
 - **Creating a new plan auto-pauses the previous active plan** - no plans are lost
-- **Backward compatible** - works when `plans[]` doesn't exist (falls back to globbing `.workflow/plans/`)
+- **Backward compatible** - works when `plans[]` doesn't exist (falls back to globbing `.mycelium/plans/`)

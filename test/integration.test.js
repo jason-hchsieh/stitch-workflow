@@ -39,7 +39,7 @@ describe('Integration Tests', () => {
 
       // 3. Update state with project info
       await stateManager.updateStateField(statePath, 'project_root', '/test/project');
-      await stateManager.updateStateField(statePath, 'workflow_root', '/test/project/.workflow');
+      await stateManager.updateStateField(statePath, 'workflow_root', '/test/project/.mycelium');
       await stateManager.updateStateField(statePath, 'session_id', 'test-session-123');
 
       // 4. Validate updated state
@@ -135,7 +135,7 @@ Environment: {{env | uppercase}}
       const context = {
         project_name: 'Integration Test',
         project_root: '/test/project',
-        workflow_root: '/test/project/.workflow',
+        workflow_root: '/test/project/.mycelium',
         session_id: 'test-123',
         team: {
           lead: 'Alice',
@@ -245,7 +245,7 @@ Environment: {{env | uppercase}}
       // Step 2: Configure project
       await stateManager.updateStateField(sessionPath, 'session_id', 'e2e-test-001');
       await stateManager.updateStateField(sessionPath, 'project_root', '/projects/test');
-      await stateManager.updateStateField(sessionPath, 'workflow_root', '/projects/test/.workflow');
+      await stateManager.updateStateField(sessionPath, 'workflow_root', '/projects/test/.mycelium');
 
       // Step 3: Add discovered capabilities
       const capabilities = {

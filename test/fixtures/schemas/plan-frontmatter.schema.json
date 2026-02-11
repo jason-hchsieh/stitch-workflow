@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://adaptive-workflow.local/schemas/plan-frontmatter.schema.json",
   "title": "Plan Frontmatter Schema",
-  "description": "YAML frontmatter validation for plan files in .workflow/plans/",
+  "description": "YAML frontmatter validation for plan files in .mycelium/plans/",
   "type": "object",
   "required": ["track_id", "track_type", "size", "created", "status", "total_tasks", "completed_tasks"],
   "properties": {

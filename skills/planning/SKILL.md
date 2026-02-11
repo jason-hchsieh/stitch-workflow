@@ -360,7 +360,7 @@ Acceptance Criteria:
 - Discover plugin agents: glob `{installPath}/agents/**/*.md` per plugin, read YAML frontmatter, fully-qualify as `{pluginName}:{name}`
 - Add built-in agents (not in cache): read Task tool description for Bash, general-purpose, Explore, Plan, claude-code-guide, statusline-setup
 - Check for MCP tools (not in cache): scan system prompt for MCP server tools
-- Store all discovered capabilities in `.workflow/state/session_state.json` under `discovered_capabilities`
+- Store all discovered capabilities in `.mycelium/state/session_state.json` under `discovered_capabilities`
 - Verify capabilities assigned to tasks actually exist; reassign if not
 
 **Phase 4: Implementation**
@@ -424,7 +424,7 @@ Major deviations require replanning:
 
 ## Output Format
 
-Create plan file at `.workflow/plans/[feature-name]-plan.md`:
+Create plan file at `.mycelium/plans/[feature-name]-plan.md`:
 
 1. Write frontmatter with metadata
 2. Write overview and success criteria

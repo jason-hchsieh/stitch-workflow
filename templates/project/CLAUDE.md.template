@@ -26,7 +26,7 @@
 ```
 
 ## Project Structure
-See .workflow/context/ for detailed context files.
+See .mycelium/context/ for detailed context files.
 
 ## Critical Patterns
-See .workflow/solutions/patterns/critical-patterns.md
+See .mycelium/solutions/patterns/critical-patterns.md

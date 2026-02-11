@@ -5,7 +5,7 @@ pattern_count: 0
 
 # Critical Patterns
 
-Patterns that MUST be followed. Promoted from .workflow/solutions/ when 3+ similar issues occur.
+Patterns that MUST be followed. Promoted from .mycelium/solutions/ when 3+ similar issues occur.
 
 ---
 
@@ -30,5 +30,5 @@ Patterns that MUST be followed. Promoted from .workflow/solutions/ when 3+ simil
 ```
 
 ### References
-- .workflow/solutions/{{CATEGORY}}/{{FILE_1}}.md
-- .workflow/solutions/{{CATEGORY}}/{{FILE_2}}.md
+- .mycelium/solutions/{{CATEGORY}}/{{FILE_1}}.md
+- .mycelium/solutions/{{CATEGORY}}/{{FILE_2}}.md

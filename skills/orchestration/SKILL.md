@@ -42,7 +42,7 @@ Map `current_phase` in `session_state.json` to named phases:
 
 ### Mid-Phase Resumption
 
-- Read `.workflow/state/progress.md` for completed work summary
+- Read `.mycelium/state/progress.md` for completed work summary
 - Check plan markers (`[x]` = done, `[~]` = in progress, `[ ]` = pending)
 - Resume the `[~]` or next `[ ]` task within the current phase
 - Verify test baseline passes before continuing work
@@ -112,17 +112,17 @@ Extract:
 **Read project context**:
 ```bash
 # Project information
-cat .workflow/context/product.md
-cat .workflow/context/tech-stack.md
-cat .workflow/context/workflow.md
+cat .mycelium/context/product.md
+cat .mycelium/context/tech-stack.md
+cat .mycelium/context/workflow.md
 cat CLAUDE.md
 
 # Prior knowledge
-cat .workflow/solutions/patterns/critical-patterns.md
-ls .workflow/solutions/
+cat .mycelium/solutions/patterns/critical-patterns.md
+ls .mycelium/solutions/
 
 # Session state
-cat .workflow/state/session_state.json
+cat .mycelium/state/session_state.json
 ```
 
 ### Discover Capabilities
@@ -145,7 +145,7 @@ cat .workflow/state/session_state.json
 
 5. **Check for MCP tools** - These are NOT in the plugin cache. Check the system prompt for any MCP server tools listed as additional tools.
 
-6. **Cache discovered capabilities** in `.workflow/state/session_state.json`:
+6. **Cache discovered capabilities** in `.mycelium/state/session_state.json`:
 ```json
 {
   "discovered_capabilities": {
@@ -201,7 +201,7 @@ Example:
 ```
 
 **Output**:
-- Plan saved to `.workflow/plans/YYYY-MM-DD-{track_id}.md`
+- Plan saved to `.mycelium/plans/YYYY-MM-DD-{track_id}.md`
 - Track ID stored in session_state.json
 - Plan registered in `session_state.plans[]` (auto-pauses any previously active plan)
 
@@ -259,7 +259,7 @@ For EACH task in plan (or parallel if dependencies allow):
    grep -r "auth\|authentication" src/
 
    # Check for learned patterns
-   cat .workflow/solutions/patterns/critical-patterns.md
+   cat .mycelium/solutions/patterns/critical-patterns.md
    ```
 
 3. **Apply TDD cycle** (from tdd skill):
@@ -506,7 +506,7 @@ If P1 issues or user chooses to fix:
 1. **Analyze completed work**:
    ```bash
    # Load track information
-   cat .workflow/plans/{track_file}.md
+   cat .mycelium/plans/{track_file}.md
 
    # Get all commits
    git log main..{track_branch}
@@ -526,13 +526,13 @@ If P1 issues or user chooses to fix:
    ```
    Captured:
    - Pattern: JWT token validation
-     → .workflow/solutions/patterns/auth-patterns.md
+     → .mycelium/solutions/patterns/auth-patterns.md
 
    - Solution: Session timeout handling
-     → .workflow/solutions/security-issues/session-timeout.md
+     → .mycelium/solutions/security-issues/session-timeout.md
 
    - Performance: Database query optimization
-     → .workflow/solutions/performance-issues/query-batch.md
+     → .mycelium/solutions/performance-issues/query-batch.md
    ```
 
 4. **Update capabilities**:

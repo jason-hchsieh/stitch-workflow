@@ -17,7 +17,7 @@ This skill guides you through bootstrapping a project with the mycelium workflow
 
 ## Overview
 
-The setup workflow detects project type, gathers configuration through interactive questions, creates the `.workflow/` directory structure, and initializes git if needed.
+The setup workflow detects project type, gathers configuration through interactive questions, creates the `.mycelium/` directory structure, and initializes git if needed.
 
 ---
 
@@ -25,11 +25,11 @@ The setup workflow detects project type, gathers configuration through interacti
 
 ### Step 1: Check for Existing Setup
 
-First, check if `.workflow/state/setup_state.json` exists:
+First, check if `.mycelium/state/setup_state.json` exists:
 
 ```bash
 # Check for existing setup
-ls .workflow/state/setup_state.json
+ls .mycelium/state/setup_state.json
 ```
 
 **If exists and status is "completed"**:
@@ -85,7 +85,7 @@ Analyze the current directory to determine if this is a new or existing project.
 
 ### Step 3: Interactive Setup
 
-Ask questions ONE AT A TIME in sections. Save state after EACH answer to `.workflow/state/setup_state.json`.
+Ask questions ONE AT A TIME in sections. Save state after EACH answer to `.mycelium/state/setup_state.json`.
 
 #### PRODUCT Section (what & why)
 
@@ -225,7 +225,7 @@ Once all answers collected, create this structure:
 ```
 project/
 ├── CLAUDE.md                    # Quick context file
-├── .workflow/                   # AI workflow artifacts
+├── .mycelium/                   # AI workflow artifacts
 │   ├── context/                 # Project information
 │   │   ├── product.md
 │   │   ├── tech-stack.md
@@ -265,7 +265,7 @@ project/
 
 ## Getting Started
 
-See `.workflow/context/` for detailed project information.
+See `.mycelium/context/` for detailed project information.
 
 ## Workflow
 
@@ -275,7 +275,7 @@ See `.workflow/context/` for detailed project information.
 - `/mycelium-capture` - Capture learnings
 ```
 
-**.workflow/context/product.md**:
+**.mycelium/context/product.md**:
 ```markdown
 ---
 product_name: {name}
@@ -299,7 +299,7 @@ created: {timestamp}
 {how_we_measure_success}
 ```
 
-**.workflow/context/tech-stack.md**:
+**.mycelium/context/tech-stack.md**:
 ```markdown
 ---
 primary_language: {language}
@@ -332,7 +332,7 @@ updated: {timestamp}
 {linters, formatters, test frameworks}
 ```
 
-**.workflow/context/workflow.md**:
+**.mycelium/context/workflow.md**:
 ```markdown
 ---
 tdd_strictness: {strict|flexible|none}
@@ -362,7 +362,7 @@ coverage_target: {percentage}
 - All tests passing
 ```
 
-**.workflow/solutions/patterns/critical-patterns.md**:
+**.mycelium/solutions/patterns/critical-patterns.md**:
 ```markdown
 # Critical Patterns
 
@@ -406,7 +406,7 @@ git branch --show-current || git checkout -b main
 .worktrees/
 
 # Session state (local only)
-.workflow/state/session_state.json
+.mycelium/state/session_state.json
 
 # Language/framework specific
 node_modules/
@@ -435,10 +435,10 @@ Add stack-specific ignores based on detected language:
 
 **Create initial commit**:
 ```bash
-git add .workflow/ CLAUDE.md .gitignore
+git add .mycelium/ CLAUDE.md .gitignore
 git commit -m "Initialize project with mycelium workflow
 
-- Add .workflow/ directory structure
+- Add .mycelium/ directory structure
 - Add CLAUDE.md quick context
 - Configure git and .gitignore
 
@@ -485,10 +485,10 @@ If project uses linters/formatters:
   "completed_at": "2026-02-04T10:30:00Z",
   "files_created": [
     "CLAUDE.md",
-    ".workflow/context/product.md",
-    ".workflow/context/tech-stack.md",
-    ".workflow/context/workflow.md",
-    ".workflow/solutions/patterns/critical-patterns.md",
+    ".mycelium/context/product.md",
+    ".mycelium/context/tech-stack.md",
+    ".mycelium/context/workflow.md",
+    ".mycelium/solutions/patterns/critical-patterns.md",
     ".gitignore"
   ]
 }
@@ -520,9 +520,9 @@ If project uses linters/formatters:
 
 Created:
   ✓ CLAUDE.md - Quick context
-  ✓ .workflow/context/ - Project information
-  ✓ .workflow/plans/ - Living plans
-  ✓ .workflow/solutions/ - Knowledge base
+  ✓ .mycelium/context/ - Project information
+  ✓ .mycelium/plans/ - Living plans
+  ✓ .mycelium/solutions/ - Knowledge base
   ✓ Git repository initialized
 
 Configuration:
@@ -531,7 +531,7 @@ Configuration:
   • Coverage: ≥{target}%
 
 Next steps:
-  1. Review CLAUDE.md and .workflow/context/
+  1. Review CLAUDE.md and .mycelium/context/
   2. When you have a task: /mycelium-plan [description]
   3. Or for full automation: /mycelium-go [description]
 ```
@@ -555,7 +555,7 @@ The `setup_state.json` enables resume functionality:
     "problem_statement": "...",
     "target_users": "..."
   },
-  "files_created": [".workflow/context/product.md"],
+  "files_created": [".mycelium/context/product.md"],
   "started_at": "2026-02-04T09:00:00Z",
   "last_updated": "2026-02-04T09:15:00Z"
 }
@@ -639,7 +639,7 @@ When resuming (user passes `--resume` or state shows "in_progress"):
 
 ## Next Steps After Setup
 
-1. **Review** created files (CLAUDE.md, .workflow/context/)
+1. **Review** created files (CLAUDE.md, .mycelium/context/)
 2. **Customize** if needed (edit context files)
 3. **Start work**:
    - Manual: `/mycelium-plan [task]`

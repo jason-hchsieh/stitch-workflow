@@ -29,7 +29,7 @@ Central definition of all enumeration types used across schemas. Reference this 
 - `VerificationMethod` - unit_test, integration_test, e2e_test, etc.
 
 ### session-state.schema.json
-Schema for `.workflow/state/session_state.json` - tracks current workflow session state.
+Schema for `.mycelium/state/session_state.json` - tracks current workflow session state.
 
 **Key Properties:**
 - `status` - Current session status
@@ -49,7 +49,7 @@ Schema for `.workflow/state/session_state.json` - tracks current workflow sessio
 **Required Fields:** `status`, `started_at`, `last_updated`
 
 ### setup-state.schema.json
-Schema for `.workflow/state/setup_state.json` - tracks bootstrap process (Phase -1).
+Schema for `.mycelium/state/setup_state.json` - tracks bootstrap process (Phase -1).
 
 **Key Properties:**
 - `status` - Setup progress status
@@ -64,7 +64,7 @@ Schema for `.workflow/state/setup_state.json` - tracks bootstrap process (Phase 
 **Required Fields:** `status`, `project_type`, `started_at`, `last_updated`
 
 ### solution-frontmatter.schema.json
-Schema for YAML frontmatter in `.workflow/solutions/**/*.md` files.
+Schema for YAML frontmatter in `.mycelium/solutions/**/*.md` files.
 
 **Required Fields:**
 - `date` - ISO date (YYYY-MM-DD)
@@ -84,7 +84,7 @@ Schema for YAML frontmatter in `.workflow/solutions/**/*.md` files.
 **Validation:** BLOCKING - Invalid YAML prevents solution capture
 
 ### plan-frontmatter.schema.json
-Schema for YAML frontmatter in `.workflow/plans/*.md` files.
+Schema for YAML frontmatter in `.mycelium/plans/*.md` files.
 
 **Required Fields:**
 - `track_id` - Format: `{shortname}_{YYYYMMDD}`
@@ -100,7 +100,7 @@ Schema for YAML frontmatter in `.workflow/plans/*.md` files.
 - `parallel_enabled` - Whether parallel execution enabled
 
 ### progress-state.schema.json
-Schema for progress checkpoint structure used in `.workflow/state/progress.md`.
+Schema for progress checkpoint structure used in `.mycelium/state/progress.md`.
 
 **Required Fields:**
 - `track_id` - Current track

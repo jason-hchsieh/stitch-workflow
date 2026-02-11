@@ -11,7 +11,7 @@ Extract and preserve learnings from completed work to grow the mycelium knowledg
 
 ## Your Task
 
-1. **Update session state** - Write `invocation_mode: "single"` to `.workflow/state/session_state.json`
+1. **Update session state** - Write `invocation_mode: "single"` to `.mycelium/state/session_state.json`
 
 2. **Load the solution-capture skill** - Use Skill tool to load `solution-capture`
 
@@ -20,7 +20,7 @@ Extract and preserve learnings from completed work to grow the mycelium knowledg
    - Default: Most recently completed track
 
 4. **Load track context**:
-   - Completed plan from `.workflow/plans/`
+   - Completed plan from `.mycelium/plans/`
    - Commits and changes
    - Session state
 
@@ -32,12 +32,12 @@ Extract and preserve learnings from completed work to grow the mycelium knowledg
    - Knowledge structuring and promotion
 
 6. **Save learnings** to appropriate locations:
-   - `.workflow/solutions/{category}/` - Problem solutions
-   - `.workflow/learned/decisions/` - Architectural decisions
-   - `.workflow/learned/conventions/` - Code conventions
-   - `.workflow/learned/preferences.yaml` - User preferences
-   - `.workflow/learned/anti-patterns/` - What not to do
-   - `.workflow/solutions/patterns/critical-patterns.md` - Recurring patterns
+   - `.mycelium/solutions/{category}/` - Problem solutions
+   - `.mycelium/learned/decisions/` - Architectural decisions
+   - `.mycelium/learned/conventions/` - Code conventions
+   - `.mycelium/learned/preferences.yaml` - User preferences
+   - `.mycelium/learned/anti-patterns/` - What not to do
+   - `.mycelium/solutions/patterns/critical-patterns.md` - Recurring patterns
 
 7. **Update session capabilities** with new patterns discovered
 

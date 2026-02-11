@@ -11,7 +11,7 @@ Comprehensive two-stage code review: spec compliance → quality assessment.
 
 ## Your Task
 
-1. **Update session state** - Write `invocation_mode: "single"` to `.workflow/state/session_state.json`
+1. **Update session state** - Write `invocation_mode: "single"` to `.mycelium/state/session_state.json`
 
 2. **Load the review skill** - Use Skill tool to load `review`
 
@@ -21,7 +21,7 @@ Comprehensive two-stage code review: spec compliance → quality assessment.
    - `--stage=all` or default: Both stages
 
 4. **Load review context**:
-   - Active plan from `.workflow/plans/`
+   - Active plan from `.mycelium/plans/`
    - Git diff of changes
    - Project context files
 
@@ -37,8 +37,8 @@ Comprehensive two-stage code review: spec compliance → quality assessment.
      - Aggregate and prioritize issues (P1/P2/P3)
 
 6. **Generate reports**:
-   - `.workflow/state/review_stage1_report.md`
-   - `.workflow/state/review_stage2_report.md`
+   - `.mycelium/state/review_stage1_report.md`
+   - `.mycelium/state/review_stage2_report.md`
 
 7. **Next step**:
    - If approved: Suggest `/mycelium-capture`

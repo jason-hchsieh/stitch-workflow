@@ -2,7 +2,7 @@
 .worktrees/
 
 # Workflow state (session-specific)
-.workflow/state/
+.mycelium/state/
 
 # Binaries for programs and plugins
 *.exe

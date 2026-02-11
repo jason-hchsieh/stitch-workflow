@@ -23,7 +23,7 @@ This skill provides a "dry-run" mode that:
 1. **Parse arguments**:
    - `task description`: The feature/fix/optimization to preview
 
-2. **Update session state** - Write `invocation_mode: "view"` to `.workflow/state/session_state.json`
+2. **Update session state** - Write `invocation_mode: "view"` to `.mycelium/state/session_state.json`
 
 3. **Load the planning skill** - Use Skill tool to load `planning`
 
@@ -70,7 +70,7 @@ This skill provides a "dry-run" mode that:
    - Worktrees: [if multiple features]
    ```
 
-6. **Save preview** - Write plan to `.workflow/plans/preview-YYYY-MM-DD-{track-id}.md` with `status: preview` in frontmatter
+6. **Save preview** - Write plan to `.mycelium/plans/preview-YYYY-MM-DD-{track-id}.md` with `status: preview` in frontmatter
 
 7. **Prompt next action**:
    ```
@@ -81,7 +81,7 @@ This skill provides a "dry-run" mode that:
    - Run phases individually: /mycelium-plan, /mycelium-work, etc.
 
    To modify the plan:
-   - Edit: .workflow/plans/preview-[timestamp].md
+   - Edit: .mycelium/plans/preview-[timestamp].md
    - Re-run: /mycelium-view "[modified description]"
    ```
 
@@ -151,7 +151,7 @@ This prevents accidental execution if `/mycelium-continue` is called after a pre
 
 The skill outputs:
 1. **Terminal display** - Formatted markdown preview
-2. **File output** - `.workflow/plans/preview-YYYY-MM-DD-{track-id}.md`
+2. **File output** - `.mycelium/plans/preview-YYYY-MM-DD-{track-id}.md`
 3. **Next steps** - Clear instructions on how to proceed
 
 ## Skills Used

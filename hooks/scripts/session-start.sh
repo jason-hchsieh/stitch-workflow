@@ -4,17 +4,17 @@
 
 set -e
 
-# Check if .workflow directory exists
-if [ ! -d ".workflow" ]; then
-  echo "⚠️  No .workflow directory found. Run /mycelium-setup to initialize." >&2
+# Check if .mycelium directory exists
+if [ ! -d ".mycelium" ]; then
+  echo "⚠️  No .mycelium directory found. Run /mycelium-setup to initialize." >&2
   exit 0
 fi
 
 # Load session state or create new
-if [ ! -f ".workflow/state/session_state.json" ]; then
+if [ ! -f ".mycelium/state/session_state.json" ]; then
   echo "📋 Initializing new session..." >&2
-  mkdir -p .workflow/state
-  cat > .workflow/state/session_state.json <<EOF
+  mkdir -p .mycelium/state
+  cat > .mycelium/state/session_state.json <<EOF
 {
   "session_id": "$(uuidgen 2>/dev/null || echo "session-$(date +%s)")",
   "started_at": "$(date -Iseconds 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)",
@@ -39,16 +39,16 @@ fi
 echo "🔄 Loading workflow context..." >&2
 
 # Check for institutional knowledge
-if [ -d ".workflow/solutions" ]; then
-  solution_count=$(find .workflow/solutions -type f -name "*.md" 2>/dev/null | wc -l)
+if [ -d ".mycelium/solutions" ]; then
+  solution_count=$(find .mycelium/solutions -type f -name "*.md" 2>/dev/null | wc -l)
   echo "📚 Found $solution_count documented solutions" >&2
 fi
 
-if [ -f ".workflow/solutions/patterns/critical-patterns.md" ]; then
+if [ -f ".mycelium/solutions/patterns/critical-patterns.md" ]; then
   echo "⭐ Critical patterns available" >&2
 fi
 
-if [ -d ".workflow/learned" ]; then
+if [ -d ".mycelium/learned" ]; then
   echo "🧠 Learned knowledge available" >&2
 fi
 
@@ -61,7 +61,7 @@ if [ -d ".worktrees" ]; then
 fi
 
 # Check for in-progress work
-if [ -f ".workflow/state/progress.md" ]; then
+if [ -f ".mycelium/state/progress.md" ]; then
   echo "📝 Progress state found - resumable session" >&2
 fi
 

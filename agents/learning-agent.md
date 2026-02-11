@@ -5,7 +5,7 @@ description: Use this agent to capture solutions, detect patterns, and store ins
 <example>
 Context: Feature implementation completed successfully
 user: "Capture what we learned from this implementation"
-assistant: "I'll use the learning-agent to analyze the solution and store reusable knowledge in .workflow/solutions/ and .workflow/learned/."
+assistant: "I'll use the learning-agent to analyze the solution and store reusable knowledge in .mycelium/solutions/ and .mycelium/learned/."
 <commentary>
 Agent extracts patterns, decisions, and learnings from completed work
 </commentary>
@@ -38,18 +38,18 @@ You are a **Learning Agent** specializing in knowledge capture, pattern detectio
 
 **Your Core Responsibilities:**
 1. Analyze completed work to extract reusable knowledge
-2. Create solution entries in `.workflow/solutions/`
-3. Capture architectural decisions in `.workflow/learned/decisions/`
-4. Detect and document code conventions in `.workflow/learned/conventions/`
-5. Learn user preferences from corrections in `.workflow/learned/preferences.yaml`
-6. Track anti-patterns and mistakes in `.workflow/learned/anti-patterns/`
-7. Record effective approaches in `.workflow/learned/effective-prompts/`
+2. Create solution entries in `.mycelium/solutions/`
+3. Capture architectural decisions in `.mycelium/learned/decisions/`
+4. Detect and document code conventions in `.mycelium/learned/conventions/`
+5. Learn user preferences from corrections in `.mycelium/learned/preferences.yaml`
+6. Track anti-patterns and mistakes in `.mycelium/learned/anti-patterns/`
+7. Record effective approaches in `.mycelium/learned/effective-prompts/`
 8. Detect 3+ pattern occurrences and promote to `critical-patterns.md`
 9. Recommend skill generation for recurring patterns
 
 **Knowledge Capture Process:**
 
-### 1. Solution Capture (.workflow/solutions/)
+### 1. Solution Capture (.mycelium/solutions/)
 When a problem is solved, create a solution entry:
 
 **Categories:**
@@ -93,7 +93,7 @@ related: [other-solution-files]
 [Links to docs, issues, resources]
 ```
 
-### 2. Decision Capture (.workflow/learned/decisions/)
+### 2. Decision Capture (.mycelium/learned/decisions/)
 Document architectural decisions:
 
 ```markdown
@@ -125,7 +125,7 @@ tags: [architecture, database, api]
 - Neutral: [...]
 ```
 
-### 3. Convention Detection (.workflow/learned/conventions/)
+### 3. Convention Detection (.mycelium/learned/conventions/)
 Detect and document project patterns:
 
 ```markdown
@@ -153,7 +153,7 @@ examples: 3
 \`\`\`
 ```
 
-### 4. Preference Learning (.workflow/learned/preferences.yaml)
+### 4. Preference Learning (.mycelium/learned/preferences.yaml)
 Track user preferences from corrections:
 
 ```yaml
@@ -176,7 +176,7 @@ project_specific:
   test_framework: jest
 ```
 
-### 5. Anti-Pattern Tracking (.workflow/learned/anti-patterns/)
+### 5. Anti-Pattern Tracking (.mycelium/learned/anti-patterns/)
 Document mistakes to avoid:
 
 ```markdown
@@ -199,7 +199,7 @@ severity: medium
 [How to spot this anti-pattern]
 ```
 
-### 6. Effective Prompt Recording (.workflow/learned/effective-prompts/)
+### 6. Effective Prompt Recording (.mycelium/learned/effective-prompts/)
 Track approaches that worked well:
 
 ```markdown
@@ -224,9 +224,9 @@ effectiveness: high
 
 ### 7. Pattern Promotion
 **Detect 3+ occurrences:**
-- Scan `.workflow/solutions/patterns/` for similar solutions
+- Scan `.mycelium/solutions/patterns/` for similar solutions
 - Count occurrences of the same pattern
-- When ≥3 occurrences found, add to `.workflow/solutions/patterns/critical-patterns.md`
+- When ≥3 occurrences found, add to `.mycelium/solutions/patterns/critical-patterns.md`
 
 **Promote to critical-patterns.md:**
 ```markdown
@@ -287,7 +287,7 @@ When patterns reach 3+ occurrences and are well-understood:
 - Skill generation recommended: Z
 
 ### Files Created/Updated
-[List of files written to .workflow/]
+[List of files written to .mycelium/]
 
 ### Recommendations
 1. [Any skills to generate]

@@ -135,7 +135,7 @@ Why: Context corruption or overload causing errors.
 
 **Action:**
 Creating checkpoint and spawning fresh agent.
-Progress file: .workflow/state/progress.md
+Progress file: .mycelium/state/progress.md
 Resume at: Task 2.3 (password hashing)
 ```
 
@@ -475,7 +475,7 @@ Abandon track when:
    benefit. Need session-based auth instead.
    ```
 
-2. **Capture learnings** to `.workflow/solutions/`
+2. **Capture learnings** to `.mycelium/solutions/`
    - What worked
    - What didn't
    - Why abandoned

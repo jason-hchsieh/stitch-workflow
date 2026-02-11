@@ -29,7 +29,7 @@ flowchart TD
     %% Phase -1: Bootstrap
     CheckProject -->|No| Bootstrap[-1: Project Bootstrap]
     Bootstrap --> Interactive[Interactive Setup<br/>One Question at a Time]
-    Interactive --> CreateStructure[Create .workflow/<br/>Directory Structure]
+    Interactive --> CreateStructure[Create .mycelium/<br/>Directory Structure]
     CreateStructure --> GitInit[Initialize Git<br/>MANDATORY]
     GitInit --> Phase0
 
@@ -116,11 +116,11 @@ flowchart TD
     Phase6ESkill -->|No| Phase6F
 
     Phase6F[6F: Store Learned Knowledge] --> CaptureSolution[Capture Solution<br/>with YAML Validation]
-    CaptureSolution --> CaptureDecision[Capture Decisions<br/>.workflow/learned/decisions/]
-    CaptureDecision --> CaptureConvention[Detect Conventions<br/>.workflow/learned/conventions/]
-    CaptureConvention --> UpdatePrefs[Update Preferences<br/>.workflow/learned/preferences.yaml]
-    UpdatePrefs --> TrackAntiPattern[Track Anti-Patterns<br/>.workflow/learned/anti-patterns/]
-    TrackAntiPattern --> RecordPrompt[Record Effective Prompts<br/>.workflow/learned/effective-prompts/]
+    CaptureSolution --> CaptureDecision[Capture Decisions<br/>.mycelium/learned/decisions/]
+    CaptureDecision --> CaptureConvention[Detect Conventions<br/>.mycelium/learned/conventions/]
+    CaptureConvention --> UpdatePrefs[Update Preferences<br/>.mycelium/learned/preferences.yaml]
+    UpdatePrefs --> TrackAntiPattern[Track Anti-Patterns<br/>.mycelium/learned/anti-patterns/]
+    TrackAntiPattern --> RecordPrompt[Record Effective Prompts<br/>.mycelium/learned/effective-prompts/]
     RecordPrompt --> UpdateMetrics[Update Session Metrics]
     UpdateMetrics --> Done([Work Complete])
 
@@ -161,7 +161,7 @@ flowchart TD
 
 ### 🎯 Comprehensive Workflow Phases
 
-- **Phase -1: Project Bootstrap** - Initialize projects with .workflow/ structure
+- **Phase -1: Project Bootstrap** - Initialize projects with .mycelium/ structure
 - **Phase 0: Context Loading** - Load institutional knowledge + discover capabilities (cached)
 - **Phase 1: Clarify Request** - Ask clarifying questions, define scope
 - **Phase 2: Planning & Assignment** - Decompose request → features → 2-5 min tasks, assign capabilities
@@ -199,7 +199,7 @@ project-root/
 │   ├── feature-oauth/       # Feature 1 worktree + branch
 │   ├── feature-login-ui/    # Feature 2 worktree + branch
 │   └── feature-session/     # Feature 3 worktree + branch
-├── .workflow/               # Workflow metadata
+├── .mycelium/               # Workflow metadata
 ├── .gitignore               # Includes .worktrees/
 └── src/                     # Main source
 ```
@@ -222,12 +222,12 @@ git worktree remove .worktrees/feature-oauth
 
 ### 📚 Knowledge Compounding System
 
-**Solutions Library (`.workflow/solutions/`):**
+**Solutions Library (`.mycelium/solutions/`):**
 - Pattern-based knowledge capture
 - Automatic promotion (3+ occurrences → critical-patterns.md)
 - Searchable by problem type and tags
 
-**Learning Store (`.workflow/learned/`):**
+**Learning Store (`.mycelium/learned/`):**
 - `decisions/` - Architectural decisions with context
 - `conventions/` - Detected code patterns
 - `preferences.yaml` - User preferences learned from corrections
@@ -282,9 +282,9 @@ git clone https://github.com/jason-hchsieh/mycelium ~/.claude/plugins/mycelium
 /mycelium-setup
 ```
 
-This creates the `.workflow/` directory structure:
+This creates the `.mycelium/` directory structure:
 ```
-.workflow/
+.mycelium/
 ├── context/           # Project information
 │   ├── product.md
 │   ├── tech-stack.md
@@ -454,13 +454,13 @@ User-facing skills are **thin wrappers** that delegate to internal skills:
 
 ## Configuration
 
-### Project-Level (`.workflow/context/`)
+### Project-Level (`.mycelium/context/`)
 
 **product.md** - Product vision and goals
 **tech-stack.md** - Technical stack details
 **workflow.md** - Development practices
 
-### Session State (`.workflow/state/session_state.json`)
+### Session State (`.mycelium/state/session_state.json`)
 
 Tracks:
 - Current session ID and timestamps
@@ -470,7 +470,7 @@ Tracks:
 
 ## Project Maturity Modes
 
-Configure in `.workflow/context/workflow.md`:
+Configure in `.mycelium/context/workflow.md`:
 
 | Mode | TDD | Coverage | Review | Use Case |
 |------|-----|----------|--------|----------|
@@ -622,7 +622,7 @@ mycelium/
 Tests first, implementation second. No exceptions.
 
 ### 2. Document Solutions
-Every non-trivial fix should be captured in `.workflow/solutions/`.
+Every non-trivial fix should be captured in `.mycelium/solutions/`.
 
 ### 3. Plan Before Implementing
 Use `/mycelium-plan` to break down work systematically.
@@ -641,7 +641,7 @@ Run `/mycelium-capture` after completing work to build institutional knowledge.
 
 ## Troubleshooting
 
-### "No .workflow directory found"
+### "No .mycelium directory found"
 Run `/mycelium-setup` to initialize the project.
 
 ### "Cannot create worktree"

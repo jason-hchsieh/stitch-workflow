@@ -1,7 +1,7 @@
 {
   "session_id": "test-session-123",
   "project_root": "/test/project",
-  "workflow_root": "/test/project/.workflow",
+  "workflow_root": "/test/project/.mycelium",
   "active_workflow": "feature-development",
   "current_phase": "planning",
   "discovered_capabilities": {

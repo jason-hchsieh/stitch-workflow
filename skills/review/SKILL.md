@@ -39,7 +39,7 @@ This stage ensures the implementation actually solves the problem as specified.
 **Load the active plan**:
 ```bash
 # Find latest plan
-ls -t .workflow/plans/*.md | head -1
+ls -t .mycelium/plans/*.md | head -1
 
 # Read the plan
 # Extract: track_id, tasks, acceptance criteria
@@ -180,7 +180,7 @@ grep -r "edge case\|boundary\|null\|undefined\|error" tests/
 
 ### Step 3: Generate Spec Compliance Report
 
-Create `.workflow/state/review_stage1_report.md`:
+Create `.mycelium/state/review_stage1_report.md`:
 
 ```markdown
 # Spec Compliance Review
@@ -323,11 +323,11 @@ git diff --stat main..HEAD
 ```
 
 **Load project context**:
-- Read `.workflow/context/product.md`
-- Read `.workflow/context/tech-stack.md`
-- Read `.workflow/context/workflow.md`
+- Read `.mycelium/context/product.md`
+- Read `.mycelium/context/tech-stack.md`
+- Read `.mycelium/context/workflow.md`
 - Read `CLAUDE.md`
-- Read `.workflow/solutions/patterns/critical-patterns.md`
+- Read `.mycelium/solutions/patterns/critical-patterns.md`
 
 ---
 
@@ -545,7 +545,7 @@ Wait for all parallel agents to complete.
 
 ### Step 4: Generate Consolidated Report
 
-Create `.workflow/state/review_stage2_report.md`:
+Create `.mycelium/state/review_stage2_report.md`:
 
 ```markdown
 # Code Quality Review
@@ -754,10 +754,10 @@ Ready to proceed
 ## Protected Artifacts
 
 **NEVER flag issues in these directories:**
-- `.workflow/plans/` - Living plan documents
-- `.workflow/solutions/` - Captured learnings
-- `.workflow/state/` - Session state
-- `.workflow/context/` - Project context
+- `.mycelium/plans/` - Living plan documents
+- `.mycelium/solutions/` - Captured learnings
+- `.mycelium/state/` - Session state
+- `.mycelium/context/` - Project context
 
 These are workflow artifacts, not production code.
 
@@ -828,6 +828,6 @@ Before completing review:
 - P2 issues SHOULD fix - recommended
 - P3 issues NICE TO HAVE - optional
 - Evidence-based reviews - cite specific code/lines
-- Compare against project conventions in `.workflow/solutions/patterns/`
+- Compare against project conventions in `.mycelium/solutions/patterns/`
 - Simple working code > perfect architecture
 - Save both stage reports for future reference

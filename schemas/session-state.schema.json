@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://adaptive-workflow.local/schemas/session-state.schema.json",
   "title": "Session State Schema",
-  "description": "Schema for .workflow/state/session_state.json",
+  "description": "Schema for .mycelium/state/session_state.json",
   "type": "object",
   "required": ["status", "started_at", "last_updated"],
   "properties": {
@@ -229,7 +229,7 @@
         "pattern_matches": {
           "type": "integer",
           "minimum": 0,
-          "description": "Times .workflow/solutions/ knowledge was used"
+          "description": "Times .mycelium/solutions/ knowledge was used"
         },
         "recovery_actions": {
           "type": "array",
@@ -271,7 +271,7 @@
         "required": ["track_id", "plan_file", "status", "created"],
         "properties": {
           "track_id": { "type": "string" },
-          "plan_file": { "type": "string", "description": "Relative path in .workflow/plans/" },
+          "plan_file": { "type": "string", "description": "Relative path in .mycelium/plans/" },
           "status": { "enum": ["in_progress", "paused", "completed", "preview", "failed"] },
           "created": { "type": "string", "format": "date-time" },
           "total_tasks": { "type": "integer", "minimum": 0 },

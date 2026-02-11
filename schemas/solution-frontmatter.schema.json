@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://adaptive-workflow.local/schemas/solution-frontmatter.schema.json",
   "title": "Solution Frontmatter Schema",
-  "description": "YAML frontmatter validation for solution files in .workflow/solutions/",
+  "description": "YAML frontmatter validation for solution files in .mycelium/solutions/",
   "type": "object",
   "required": ["date", "problem_type", "component", "root_cause", "severity", "symptoms", "tags"],
   "properties": {

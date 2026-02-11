@@ -188,7 +188,7 @@ After:
 ## References
 
 - Rails guide: https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations
-- Related issue: .workflow/solutions/performance-issues/n-plus-one-users.md
+- Related issue: .mycelium/solutions/performance-issues/n-plus-one-users.md
 ```
 
 ### Step 4: Validate YAML Frontmatter
@@ -210,7 +210,7 @@ If validation fails:
 
 ### Step 5: Categorize and Store
 
-Save to `.workflow/solutions/{category}/`:
+Save to `.mycelium/solutions/{category}/`:
 
 **Categories:**
 - `performance-issues/` - Speed, memory, efficiency
@@ -244,8 +244,8 @@ name: N+1 Query Prevention
 severity: critical
 occurrences: 5
 promoted_from:
-  - .workflow/solutions/performance-issues/n-plus-one-brief.md
-  - .workflow/solutions/performance-issues/n-plus-one-users.md
+  - .mycelium/solutions/performance-issues/n-plus-one-brief.md
+  - .mycelium/solutions/performance-issues/n-plus-one-users.md
 problem_type: performance_issue
 root_cause: missing_include
 tags: [n-plus-one, database, performance]
@@ -284,7 +284,7 @@ After capturing solution, offer choices:
 
 Capture more than just problem-solutions:
 
-### Decisions (.workflow/learned/decisions/)
+### Decisions (.mycelium/learned/decisions/)
 
 Document why choices were made:
 
@@ -327,7 +327,7 @@ and mature tooling ecosystem.
 - Benchmark: [performance comparison]
 ```
 
-### Conventions (.workflow/learned/conventions/)
+### Conventions (.mycelium/learned/conventions/)
 
 Document discovered project patterns:
 
@@ -364,7 +364,7 @@ All API errors return consistent structure:
 See: src/utils/error-response.ts
 ```
 
-### Preferences (.workflow/learned/preferences.yaml)
+### Preferences (.mycelium/learned/preferences.yaml)
 
 Store user preferences learned over time:
 
@@ -389,7 +389,7 @@ workflow:
   documentation_level: "inline_comments_plus_readme"
 ```
 
-### Anti-Patterns (.workflow/learned/anti-patterns/)
+### Anti-Patterns (.mycelium/learned/anti-patterns/)
 
 Document what NOT to do:
 
@@ -430,7 +430,7 @@ Multiple bugs in production that passed tests
 because mocked services didn't match real behavior.
 ```
 
-### Effective Prompts (.workflow/learned/effective-prompts/)
+### Effective Prompts (.mycelium/learned/effective-prompts/)
 
 Capture approaches that work well:
 
@@ -515,28 +515,28 @@ Make solutions discoverable:
 
 ### By Problem Type
 ```bash
-find .workflow/solutions/performance-issues/ -name "*.md"
+find .mycelium/solutions/performance-issues/ -name "*.md"
 ```
 
 ### By Tag
 ```bash
-grep -r "tags:.*n-plus-one" .workflow/solutions/
+grep -r "tags:.*n-plus-one" .mycelium/solutions/
 ```
 
 ### By Component
 ```bash
-grep -r "component: backend" .workflow/solutions/
+grep -r "component: backend" .mycelium/solutions/
 ```
 
 ### By Date Range
 ```bash
-find .workflow/solutions/ -name "*-202602*.md"
+find .mycelium/solutions/ -name "*-202602*.md"
 ```
 
 ### Smart Search
 Use `grep` with context to find relevant solutions:
 ```bash
-grep -r "N+1 query" .workflow/solutions/ -A 5 -B 5
+grep -r "N+1 query" .mycelium/solutions/ -A 5 -B 5
 ```
 
 ## Integration with Workflow
