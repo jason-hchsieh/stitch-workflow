@@ -35,6 +35,9 @@ Display current workflow state and progress dashboard.
    Current Track: {track_id}
    Phase: {current_phase}
 
+   Plans: {total} total ({active} active, {paused} paused, {completed} completed)
+     Active: {track_id} ({completed}/{total} tasks)
+
    Tasks:
    - ✅ Completed: {count} ({percentage}%)
    - 🔄 In Progress: {count}
@@ -51,6 +54,8 @@ Display current workflow state and progress dashboard.
    Next Action: {suggested_command}
    ```
 
+   Read `plans[]` from `session_state.json` for the plan summary. If `plans[]` is missing, fall back to listing `.workflow/plans/*.md` files.
+
 4. **Suggest next action** based on state:
    - No plan → `/mycelium-plan`
    - Plan exists, tasks pending → `/mycelium-work`
@@ -59,6 +64,7 @@ Display current workflow state and progress dashboard.
    - Blockers detected → Address blockers or use `/mycelium-continue`
 
 5. **Verbose mode** (`--verbose`):
+   - **Full plan list** with status, track_id, creation date, and task progress (from `plans[]`)
    - Detailed task breakdown by phase
    - Full list of discovered skills with descriptions
    - Full list of discovered agents with capabilities

@@ -203,6 +203,7 @@ Example:
 **Output**:
 - Plan saved to `.workflow/plans/YYYY-MM-DD-{track_id}.md`
 - Track ID stored in session_state.json
+- Plan registered in `session_state.plans[]` (auto-pauses any previously active plan)
 
 **Error handling**:
 - If planning fails: Report error, STOP
@@ -628,6 +629,16 @@ Throughout execution, maintain state in `session_state.json`:
   "current_phase": "implementation",
   "current_task": "1.3",
   "mode": "autonomous",
+  "plans": [
+    {
+      "track_id": "auth_20260204",
+      "plan_file": "2026-02-04-auth_20260204.md",
+      "status": "in_progress",
+      "created": "2026-02-04T10:15:00Z",
+      "total_tasks": 8,
+      "completed_tasks": 2
+    }
+  ],
   "checkpoints": {
     "planning_complete": "2026-02-04T10:15:00Z",
     "implementation_started": "2026-02-04T10:20:00Z",
@@ -646,7 +657,7 @@ Throughout execution, maintain state in `session_state.json`:
 ```
 
 **Save state**:
-- After each phase completion
+- After each phase completion (update `plans[]` entry with task progress)
 - After each task completion
 - Before asking user questions
 - On error/blocker

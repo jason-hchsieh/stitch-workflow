@@ -263,6 +263,22 @@
         }
       }
     },
+    "plans": {
+      "type": "array",
+      "description": "Registry of all created plans for multi-plan tracking",
+      "items": {
+        "type": "object",
+        "required": ["track_id", "plan_file", "status", "created"],
+        "properties": {
+          "track_id": { "type": "string" },
+          "plan_file": { "type": "string", "description": "Relative path in .workflow/plans/" },
+          "status": { "enum": ["in_progress", "paused", "completed", "preview", "failed"] },
+          "created": { "type": "string", "format": "date-time" },
+          "total_tasks": { "type": "integer", "minimum": 0 },
+          "completed_tasks": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
     "discovered_capabilities": {
       "type": "object",
       "description": "Cached discovery results, updated on session start",

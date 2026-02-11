@@ -23,7 +23,8 @@ Execute implementation tasks following strict TDD methodology.
    - Default: Next available task
 
 4. **Load active plan**:
-   - Find latest plan in `.workflow/plans/`
+   - Read `current_track.plan_file` from `session_state.json` to locate the active plan
+   - Fall back to latest plan in `.workflow/plans/` if `current_track` is null (backward compat)
    - Read `session_state.json` for progress
 
 5. **Execute tasks** - Follow TDD and verification skills which handle:

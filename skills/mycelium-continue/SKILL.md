@@ -1,7 +1,7 @@
 ---
 name: mycelium-continue
 description: Resume interrupted workflow from last checkpoint
-argument-hint: "[--full]"
+argument-hint: "[--full] [--track <track_id>]"
 allowed-tools: ["Skill", "Read", "Write", "Edit", "Bash", "Glob", "Grep", "Task", "AskUserQuestion"]
 ---
 
@@ -13,18 +13,26 @@ Resume interrupted work with context-aware scope detection.
 
 1. **Parse arguments**:
    - `--full`: Override to full mode — run all remaining phases to completion regardless of original invocation
+   - `--track <track_id>`: Switch to and resume a specific plan (pauses the current active plan)
 
 2. **Load session state**:
    - Read `.workflow/state/session_state.json`
    - Identify `current_phase`, checkpoints, and `invocation_mode`
    - If no state found → error: "No workflow state found. Start with `/mycelium-go` or `/mycelium-plan`."
 
-3. **Restore mid-phase context**:
+3. **Handle `--track` if provided**:
+   - Find `<track_id>` in `session_state.plans[]`. If not found, check `.workflow/plans/` for a matching file. If still not found, error: "Plan `<track_id>` not found."
+   - Set the current active plan to `"paused"` in both `plans[]` and its plan file frontmatter
+   - Set the target plan to `"in_progress"` in both `plans[]` and its plan file frontmatter
+   - Update `current_track` to point to the target plan
+   - Re-read the target plan to determine its `current_phase` and checkpoints
+
+4. **Restore mid-phase context**:
    - Read `.workflow/state/progress.md` for completed work summary
    - Check for uncommitted work (`git status`) or stashes (`git stash list`)
    - Show what was completed, what's in progress, and known blockers
 
-4. **Determine continuation scope**:
+5. **Determine continuation scope**:
 
    | Condition | Behavior |
    |-----------|----------|
@@ -33,7 +41,7 @@ Resume interrupted work with context-aware scope detection.
    | `invocation_mode == "single"` (started via `/workflow-[phase]`) | Load appropriate phase skill, finish current phase ONLY |
    | No `invocation_mode` in state | Treat as `"single"` — finish current phase only |
 
-5. **Load appropriate skill and execute**:
+6. **Load appropriate skill and execute**:
 
    **Full mode** (orchestration):
    - Load `orchestration` skill
@@ -72,6 +80,12 @@ Varies based on continuation scope:
 
 # Override to full mode — run all remaining phases regardless
 /mycelium-continue --full
+
+# Switch to and resume a specific plan
+/mycelium-continue --track auth_20260210
+
+# Switch to a plan and run all remaining phases
+/mycelium-continue --track auth_20260210 --full
 ```
 
 ## Behavior Summary
@@ -84,10 +98,13 @@ Varies based on continuation scope:
 | `/mycelium-review` | Resume → finish review phase only | Resume → finish all remaining phases |
 | `/mycelium-capture` | Resume → finish capture phase only | Resume → finish all remaining phases |
 
+**With `--track`**: Pauses current active plan, switches to specified plan, then follows the same scope rules above.
+
 ## Important
 
 - **Context-aware** - Automatically detects whether to resume single phase or full workflow
 - **`--full` override** - Forces full orchestration mode regardless of original invocation
+- **`--track` switch** - Switch to and resume a different plan (auto-pauses current plan)
 - **Verifies test baseline** - Runs tests before continuing (must pass)
 - **Handles uncommitted work** - Shows uncommitted changes, offers to stash or keep
 - **Context efficient** - Loads summary from progress.md, not full history

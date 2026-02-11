@@ -19,6 +19,7 @@ if [ ! -f ".workflow/state/session_state.json" ]; then
   "session_id": "$(uuidgen 2>/dev/null || echo "session-$(date +%s)")",
   "started_at": "$(date -Iseconds 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)",
   "current_track": null,
+  "plans": [],
   "discovered_capabilities": {
     "agents": [],
     "skills": [],
