@@ -129,11 +129,16 @@ cat .workflow/state/session_state.json
 
 **Extract available skills and agents from the current session:**
 
-1. **Skills**: Read the system prompt's skill listing (the system-reminder block that starts with "The following skills are available for use with the Skill tool"). Extract each skill name and description.
+1. **Skills** - Check ALL sources and merge (deduplicate by name):
+   - Primary: The system-reminder block listing skills for the Skill tool. Extract every `plugin:skill-name` entry.
+   - Note: The system-reminder may NOT list all registered skills due to context optimization. Some plugin skills may be registered but not injected. Acknowledge any known gaps.
 
-2. **Agents**: Read the Task tool description (the section listing "Available agent types and the tools they have access to"). Extract each agent type and its capabilities.
+2. **Agents** - Read the Task tool description COMPLETELY. Extract EVERY agent under "Available agent types and the tools they have access to":
+   - Built-in agents (Bash, general-purpose, Explore, Plan, claude-code-guide, statusline-setup, etc.)
+   - Plugin agents (e.g., code-simplifier:*, mycelium:*, etc.)
+   - IMPORTANT: Do not skip any. Read the FULL list. Commonly missed: `claude-code-guide`, `statusline-setup`.
 
-3. **MCP Tools**: Check for any MCP server tools available in the current session. MCP (Model Context Protocol) servers provide additional tools beyond the built-in set. Look for MCP-provided tools in the tool list or system prompt.
+3. **MCP Tools** - Check for any MCP server tools in the current session. MCP servers provide additional tools beyond the built-in set. Look for MCP-provided tools in the tool list or system prompt.
 
 4. **Cache discovered capabilities** in `.workflow/state/session_state.json`:
 ```json

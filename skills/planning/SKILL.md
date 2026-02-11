@@ -355,9 +355,9 @@ Acceptance Criteria:
 - Define success criteria
 
 **Phase 3: Capability Discovery**
-- Discover available skills by reading the system prompt's skill listing (the system-reminder block that starts with "The following skills are available for use with the Skill tool")
-- Discover available agents by reading the Task tool description (the section listing "Available agent types and the tools they have access to")
-- Discover available MCP tools by checking for MCP server tools in the tool list or system prompt (MCP servers provide additional tools beyond the built-in set)
+- Discover available skills: read the system-reminder skill listing AND check for any skills not injected into the prompt (the system-reminder may omit some due to context optimization)
+- Discover available agents: read the Task tool description COMPLETELY - extract EVERY agent type including commonly missed built-in agents (claude-code-guide, statusline-setup)
+- Discover available MCP tools: check for MCP server tools in the tool list or system prompt
 - Store discovered capabilities in `.workflow/state/session_state.json` under `discovered_capabilities.skills`, `discovered_capabilities.agents`, and `discovered_capabilities.mcp_tools`
 - Verify that capabilities assigned to tasks in the plan actually exist in the discovered list
 - If a capability doesn't exist, reassign to the closest available match
