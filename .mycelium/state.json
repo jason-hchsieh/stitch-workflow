@@ -1,0 +1,36 @@
+{
+  "session_id": "aab3ea15-15b6-40d2-9f1c-bc21c9c69479",
+  "started_at": "2026-02-12T13:14:20+08:00",
+  "invocation_mode": "full",
+  "current_track": {
+    "id": "verbose-view_20260212",
+    "type": "feature",
+    "plan_file": "2026-02-12-verbose-view_20260212.md"
+  },
+  "current_phase": "implementation",
+  "plans": [
+    {
+      "track_id": "verbose-view_20260212",
+      "plan_file": "2026-02-12-verbose-view_20260212.md",
+      "status": "in_progress",
+      "created": "2026-02-12T14:00:00Z",
+      "total_tasks": 3,
+      "completed_tasks": 0
+    }
+  ],
+  "discovered_capabilities": {
+    "agents": [],
+    "skills": [],
+    "mcps": []
+  },
+  "checkpoints": {
+    "planning_complete": "2026-02-12T14:00:00Z",
+    "implementation_started": "2026-02-12T14:01:00Z"
+  },
+  "metrics": {
+    "tasks_completed": 0,
+    "tasks_failed": 0,
+    "context_resets": 0,
+    "human_interventions": 0
+  }
+}
