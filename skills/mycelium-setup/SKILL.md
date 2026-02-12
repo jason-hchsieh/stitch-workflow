@@ -34,6 +34,8 @@ First, check if [setup_state.json][setup-state-schema] exists:
 ls .mycelium/setup_state.json
 ```
 
+This file tracks setup progress, current section, and collected answers. See [setup state schema][setup-state-schema] for full structure.
+
 **If exists and status is "completed"**:
 - Inform user setup is already complete
 - Suggest `/mycelium-plan` for next steps
@@ -541,7 +543,9 @@ Next steps:
 
 ## State Management
 
-The [setup_state.json][setup-state-schema] enables resume functionality:
+The [setup_state.json][setup-state-schema] enables resume functionality by tracking setup progress.
+
+**State structure:**
 
 ```json
 {
