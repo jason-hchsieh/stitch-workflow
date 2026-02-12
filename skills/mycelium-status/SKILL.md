@@ -95,3 +95,13 @@ Display current workflow state and progress dashboard.
 - **Fast execution** - Should complete in <2 seconds
 - **Actionable** - Always shows clear next steps
 - **Visual** - Uses box drawing and symbols for clarity
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json

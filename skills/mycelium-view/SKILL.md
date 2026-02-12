@@ -189,3 +189,17 @@ The skill outputs:
 - The preview doesn't consume git commits or create branches
 - Safe to use in dirty working directories
 - Can be used as documentation for stakeholders
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+- [Plan template][plan-template]
+- [Plan frontmatter schema][plan-schema]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json
+[plan-template]: ../../templates/plans/plan.md.template
+[plan-schema]: ../../schemas/plan-frontmatter.schema.json

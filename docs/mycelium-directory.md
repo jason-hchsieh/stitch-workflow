@@ -64,7 +64,11 @@ Add `.mycelium/` to your project's `.gitignore`:
 - [Session state docs][session-state-docs] - Human-readable `state.json` reference
 - [Session state schema][session-state-schema] - JSON schema for `state.json`
 - [Plan template][plan-template] - Template for separate plan files
+- [Plan frontmatter schema][plan-schema] - Schema for plan YAML frontmatter
+- [Solution frontmatter schema][solution-schema] - Schema for solution YAML frontmatter
 
 [session-state-docs]: ./session-state.md
 [session-state-schema]: ../schemas/session-state.schema.json
 [plan-template]: ../templates/plans/plan.md.template
+[plan-schema]: ../schemas/plan-frontmatter.schema.json
+[solution-schema]: ../schemas/solution-frontmatter.schema.json

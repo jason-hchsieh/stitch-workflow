@@ -109,3 +109,15 @@ Varies based on continuation scope:
 - **Handles uncommitted work** - Shows uncommitted changes, offers to stash or keep
 - **Context efficient** - Loads summary from progress.md, not full history
 - **Safe defaults** - When uncertain, asks user before proceeding
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+- [Progress template][progress-template]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json
+[progress-template]: ../../templates/state/progress.md.template

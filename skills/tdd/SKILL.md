@@ -396,3 +396,11 @@ All exceptions must be:
 - TDD saves time by preventing bugs
 
 The Iron Law exists because it works. Follow it.
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md

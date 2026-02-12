@@ -122,3 +122,13 @@ Execute the complete mycelium workflow autonomously from planning to knowledge c
 - **Captures knowledge** - Builds compounding intelligence
 - **Resume with `/mycelium-continue`** - If interrupted, `/mycelium-continue` resumes all remaining phases automatically (since `/mycelium-go` sets `invocation_mode: "full"`)
 - **`--full` flag** - When resuming a single-phase skill (e.g., `/mycelium-work`), use `/mycelium-continue --full` to run all remaining phases instead of just finishing the current one
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json

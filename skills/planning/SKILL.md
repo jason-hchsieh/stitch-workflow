@@ -450,3 +450,19 @@ Save plan and reference it throughout implementation.
 - Create measurable success criteria
 - Track deviations systematically
 - Enable parallel execution by default
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+- [Plan template][plan-template]
+- [Plan frontmatter schema][plan-schema]
+- [Enum definitions][enums]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json
+[plan-template]: ../../templates/plans/plan.md.template
+[plan-schema]: ../../schemas/plan-frontmatter.schema.json
+[enums]: ../../schemas/enums.json

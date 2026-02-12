@@ -548,3 +548,13 @@ If ANY item unchecked → implementation NOT complete.
 - No "should work" - only "verified to work"
 
 Verification is not optional. It's the gate between code and confidence.
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Enum definitions][enums]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[enums]: ../../schemas/enums.json

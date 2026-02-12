@@ -44,3 +44,15 @@ Bootstrap a new or existing project with the mycelium workflow structure.
 - **One question at a time** - Interactive setup asks questions sequentially
 - **State saved after each answer** - Interruption-safe with resume capability
 - **Brownfield detection** - Auto-detects project info from existing files
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Setup state schema][setup-state-schema]
+- [Enum definitions][enums]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[setup-state-schema]: ../../schemas/setup-state.schema.json
+[enums]: ../../schemas/enums.json

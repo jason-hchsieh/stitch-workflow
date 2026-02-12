@@ -58,3 +58,17 @@ Extract and preserve learnings from completed work to grow the mycelium knowledg
 - **YAML validation is mandatory** - All frontmatter must use valid enum values
 - **Pattern detection is automatic** - 3+ similar solutions trigger critical pattern
 - **Knowledge compounds** - Each capture makes future work easier
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Solution template][solution-template]
+- [Solution frontmatter schema][solution-schema]
+- [Enum definitions][enums]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[solution-template]: ../../templates/solutions/solution.md.template
+[solution-schema]: ../../schemas/solution-frontmatter.schema.json
+[enums]: ../../schemas/enums.json

@@ -522,3 +522,17 @@ Track context health:
 - Monitor for confusion signals
 
 Effective context management enables long sessions without information loss and seamless handoffs between agent instances.
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+- [Progress template][progress-template]
+- [Progress state schema][progress-schema]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json
+[progress-template]: ../../templates/state/progress.md.template
+[progress-schema]: ../../schemas/progress-state.schema.json

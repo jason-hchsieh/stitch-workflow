@@ -672,3 +672,17 @@ Added mutex around cache read-write:
 - Every solved problem compounds future capability
 
 Solution capture is not overhead - it's the mechanism that makes each unit of work accelerate subsequent work.
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Solution template][solution-template]
+- [Solution frontmatter schema][solution-schema]
+- [Enum definitions][enums]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[solution-template]: ../../templates/solutions/solution.md.template
+[solution-schema]: ../../schemas/solution-frontmatter.schema.json
+[enums]: ../../schemas/enums.json

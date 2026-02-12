@@ -643,3 +643,27 @@ When resuming (user passes `--resume` or state shows "in_progress"):
 3. **Start work**:
    - Manual: `/mycelium-plan [task]`
    - Autonomous: `/mycelium-go [task]`
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+- [Setup state schema][setup-state-schema]
+- [CLAUDE.md template][claude-template]
+- [Product template][product-template]
+- [Tech stack template][tech-stack-template]
+- [Workflow template][workflow-template]
+- [Critical patterns template][patterns-template]
+- [Enum definitions][enums]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json
+[setup-state-schema]: ../../schemas/setup-state.schema.json
+[claude-template]: ../../templates/project/CLAUDE.md.template
+[product-template]: ../../templates/project/product.md.template
+[tech-stack-template]: ../../templates/project/tech-stack.md.template
+[workflow-template]: ../../templates/project/workflow.md.template
+[patterns-template]: ../../templates/project/critical-patterns.md.template
+[enums]: ../../schemas/enums.json

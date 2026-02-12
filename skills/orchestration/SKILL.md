@@ -783,3 +783,23 @@ Workflow is successful when:
 - [ ] Learnings captured
 - [ ] State saved for resume capability
 - [ ] User informed of completion and next steps
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+- [Plan frontmatter schema][plan-schema]
+- [Solution frontmatter schema][solution-schema]
+- [Progress state schema][progress-schema]
+- [Metrics schema][metrics-schema]
+- [Enum definitions][enums]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json
+[plan-schema]: ../../schemas/plan-frontmatter.schema.json
+[solution-schema]: ../../schemas/solution-frontmatter.schema.json
+[progress-schema]: ../../schemas/progress-state.schema.json
+[metrics-schema]: ../../schemas/metrics.schema.json
+[enums]: ../../schemas/enums.json

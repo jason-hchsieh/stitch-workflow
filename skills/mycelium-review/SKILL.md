@@ -697,3 +697,15 @@ Before completing review:
 - Compare against project conventions in `.mycelium/solutions/patterns/`
 - Simple working code > perfect architecture
 - Save both stage reports for future reference
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+- [Plan frontmatter schema][plan-schema]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json
+[plan-schema]: ../../schemas/plan-frontmatter.schema.json

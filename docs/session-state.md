@@ -80,7 +80,9 @@ When no session state exists, `/mycelium-plan` initializes with:
 - [Session state schema][schema] - Full JSON schema validation
 - [`.mycelium/` directory][mycelium-dir] - Directory structure overview
 - [Plan frontmatter schema][plan-schema] - Schema for plan file YAML
+- [Enum definitions][enums] - Enum values for status fields
 
 [schema]: ../schemas/session-state.schema.json
 [mycelium-dir]: ./mycelium-directory.md
 [plan-schema]: ../schemas/plan-frontmatter.schema.json
+[enums]: ../schemas/enums.json

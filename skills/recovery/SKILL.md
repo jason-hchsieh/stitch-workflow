@@ -618,3 +618,17 @@ Best recovery is prevention:
 - `abandon` - Give up on track
 
 Recovery protocols exist because problems are inevitable. Handle them systematically to minimize waste and maximize learning.
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+- [Metrics schema][metrics-schema]
+- [Enum definitions][enums]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json
+[metrics-schema]: ../../schemas/metrics.schema.json
+[enums]: ../../schemas/enums.json

@@ -65,3 +65,15 @@ When executing "all" tasks:
 - Each task gets its own worktree
 - Automatic merge on completion
 - Full test suite runs after merge
+
+## References
+
+- [`.mycelium/` directory structure][mycelium-dir]
+- [Session state docs][session-state-docs]
+- [Session state schema][session-state-schema]
+- [Plan frontmatter schema][plan-schema]
+
+[mycelium-dir]: ../../docs/mycelium-directory.md
+[session-state-docs]: ../../docs/session-state.md
+[session-state-schema]: ../../schemas/session-state.schema.json
+[plan-schema]: ../../schemas/plan-frontmatter.schema.json
