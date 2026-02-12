@@ -445,7 +445,7 @@ If context is lost or corrupted:
 
 ## Integration with Workflow
 
-**Phase 0: Context Loading**
+**Phase 1: Context Loading**
 - Load CLAUDE.md, context files
 - Load critical patterns
 - Initialize fresh context

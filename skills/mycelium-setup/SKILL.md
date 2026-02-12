@@ -23,7 +23,7 @@ This workflow guides you through bootstrapping a project with the mycelium workf
 
 ---
 
-## Phase -1: Bootstrap
+## Phase 1: Bootstrap
 
 ### Step 1: Check for Existing Setup
 
