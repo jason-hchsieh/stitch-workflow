@@ -188,6 +188,8 @@ await updateStateField('.mycelium/state.json', 'current_phase', 'implementation'
 - Self-contained orchestration
 - Can invoke other skills via `Skill` tool
 - Can spawn agents via `Task` tool
+- **New**: Progressive disclosure via `references/` directories for complex skills
+- **New**: Examples and Troubleshooting sections for top-priority skills
 
 **Internal skills** (e.g., `tdd`, `verification`):
 - Set `user-invocable: false` in frontmatter
@@ -199,6 +201,12 @@ await updateStateField('.mycelium/state.json', 'current_phase', 'implementation'
 - Examples in frontmatter showing when to use
 - Detailed instructions in body
 - Spawned via Task tool with `subagent_type`
+
+**Skill Metadata** (all skills as of v0.9.0):
+- `license: MIT` - Open source license
+- `version: 0.9.0` - Semantic versioning matching plugin
+- `metadata` object with: author, category, tags, documentation URL
+- Descriptions follow "WHAT + WHEN + trigger phrases" format per [Agent Skills Guide](https://agentskills.io)
 
 ### Pattern Detection and Skill Generation
 
@@ -242,6 +250,35 @@ Task 1.3: Fast code review
 ```
 
 ## Project-Specific Patterns
+
+### Progressive Disclosure System
+
+Following the [Agent Skills standard](https://agentskills.io), Mycelium skills use a 3-level progressive disclosure system:
+
+**Level 1 (YAML Frontmatter):** Always loaded in Claude's system prompt
+- Name, description (with trigger phrases), license, version, metadata
+- Helps Claude decide when to load the skill without loading full content
+- Kept concise (<1024 chars for description)
+
+**Level 2 (SKILL.md Body):** Loaded when Claude thinks skill is relevant
+- Core workflow instructions
+- Essential steps and decision gates
+- Quick examples
+- Kept focused (target 2000-3000 words, max 5000)
+
+**Level 3 (references/ Files):** Loaded only as needed
+- Detailed examples in `references/examples/`
+- Troubleshooting guides in `references/troubleshooting.md`
+- Advanced usage patterns in `references/advanced-usage.md`
+- Complex skills have `references/README.md` for navigation
+
+**Skills with references/ structure:**
+- mycelium-go (examples/, advanced-usage/)
+- mycelium-review (review-criteria/)
+- mycelium-capture
+- mycelium-plan
+- recovery (protocols/)
+- context
 
 ### Templates System
 
