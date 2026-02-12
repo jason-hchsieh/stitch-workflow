@@ -50,10 +50,10 @@ Resume interrupted work with context-aware scope detection.
 
    **Single mode** (phase-specific):
    - Map `current_phase` to skill:
-     - `planning` → Load `planning` skill
+     - `planning` → Execute planning workflow (see mycelium-plan)
      - `implementation` → Load `tdd` + `verification` skills
      - `review` → Load `mycelium-review` skill
-     - `capture` → Load `solution-capture` skill
+     - `capture` → Execute knowledge extraction (see mycelium-capture)
    - Resume from checkpoint within that phase
    - Stop after phase completion
 
@@ -67,10 +67,10 @@ Varies based on continuation scope:
 - **mycelium-go**: Phase management, chaining through remaining phases
 
 **Single mode** (one of):
-- **planning**: If interrupted during plan phase
+- **mycelium-plan**: If interrupted during plan phase
 - **tdd** + **verification**: If interrupted during work phase
-- **review**: If interrupted during review phase
-- **solution-capture**: If interrupted during capture phase
+- **mycelium-review**: If interrupted during review phase
+- **mycelium-capture**: If interrupted during capture phase
 
 ## Quick Examples
 

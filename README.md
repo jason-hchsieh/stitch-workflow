@@ -421,11 +421,8 @@ All plugin functionality is implemented as skills (following the [Agent Skills s
 
 | Skill | Purpose | Used By |
 |-------|---------|---------|
-| **setup** | Project initialization (greenfield/brownfield detection, interactive config) | `mycelium-setup` |
-| **planning** | Requirements clarification, smart research gate, task breakdown | `mycelium-plan` |
 | **tdd** | Iron Law TDD - RED → GREEN → REFACTOR enforcement | `mycelium-work`, `mycelium-go` |
 | **verification** | Evidence-based validation (show actual test output) | `mycelium-work`, `mycelium-go` |
-| **solution-capture** | Knowledge extraction, pattern detection, learning documentation | `mycelium-capture`, `mycelium-go` |
 | **context** | Project context loading and management | All skills |
 | **recovery** | Handle blockers and stuck states | As needed |
 
@@ -433,8 +430,9 @@ All plugin functionality is implemented as skills (following the [Agent Skills s
 
 User-facing skills contain full workflow logic directly:
 - **`mycelium-go`** contains the complete autonomous orchestration engine (plan → work → review → capture)
-- **Internal skills** (planning, tdd, verification, etc.): Contain domain-specific logic and best practices
-- **Benefit**: Each user-facing skill is self-contained; internal skills provide reusable domain expertise
+- **`mycelium-plan`**, **`mycelium-setup`**, **`mycelium-capture`** contain their complete workflow logic (no wrapper pattern)
+- **Internal skills** (tdd, verification, context, recovery): Provide reusable domain expertise
+- **Benefit**: Each user-facing skill is self-contained and can be invoked independently
 
 ## Agents
 
@@ -552,13 +550,8 @@ mycelium/
 │   ├── mycelium-continue/    # User-facing: resume interrupted workflow
 │   ├── mycelium-status/      # User-facing: display progress
 │   ├── mycelium-setup/       # User-facing: bootstrap project
-│   ├── workflow/
-│   │   ├── planning/         # Internal: task breakdown guidance
-│   │   ├── tdd/              # Internal: TDD enforcement
-│   │   ├── verification/     # Internal: evidence-based validation
-│   │   ├── review/           # Internal: review workflow guidance
-│   │   ├── solution-capture/ # Internal: knowledge extraction
-│   │   └── setup/            # Internal: setup workflow guidance
+│   ├── tdd/                  # Internal: TDD enforcement
+│   ├── verification/         # Internal: evidence-based validation
 │   ├── context/              # Internal: context window management
 │   └── recovery/             # Internal: recovery protocols
 ├── hooks/

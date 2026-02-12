@@ -49,7 +49,7 @@ If `task description` was provided:
 
 1. **Update session state** - Write `invocation_mode: "view"` to `.mycelium/state.json`
 
-2. **Load the planning skill** - Use Skill tool to load `planning`
+2. **Execute planning workflow** (see mycelium-plan)
 
 3. **Generate plan** - Follow the planning workflow:
    - Clarify requirements if ambiguous
@@ -302,7 +302,7 @@ The skill outputs:
 
 ## Skills Used
 
-- **planning**: Requirements gathering and task decomposition (same as /mycelium-plan)
+- **mycelium-plan**: Requirements gathering and task decomposition (same workflow, preview mode)
 
 ## Notes
 

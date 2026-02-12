@@ -165,11 +165,9 @@ cat .mycelium/state.json
 
 7. **Use cached capabilities** when assigning agents/skills to tasks in the plan. Only assign capabilities that exist in the discovered list.
 
-### Invoke Planning Skill
+### Execute Planning Workflow
 
-**Load**: `planning` skill
-
-**Execute planning workflow**:
+**Execute planning workflow** (see mycelium-plan):
 1. Clarify requirements (Phase 1)
 2. Smart research gate (Phase 1.5)
 3. Discover capabilities (Phase 2) - use cached capabilities from above
@@ -496,11 +494,9 @@ If P1 issues or user chooses to fix:
 
 ## Phase 4: Knowledge Capture
 
-### Invoke Solution Capture Skill
+### Execute Knowledge Extraction
 
-**Load**: `solution-capture` skill
-
-**Execute knowledge extraction**:
+**Execute knowledge extraction** (see mycelium-capture):
 
 1. **Analyze completed work**:
    ```bash
@@ -760,11 +756,11 @@ Options:
 
 ## Skills Used
 
-- **planning**: Requirements → tasks
+- **mycelium-plan**: Requirements → tasks
 - **tdd**: RED → GREEN → REFACTOR enforcement
 - **verification**: Evidence-based validation
 - **mycelium-review**: Two-stage quality check
-- **solution-capture**: Knowledge extraction
+- **mycelium-capture**: Knowledge extraction
 
 ## Quick Examples
 

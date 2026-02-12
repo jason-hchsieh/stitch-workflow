@@ -41,7 +41,7 @@ Execute implementation tasks following strict TDD methodology.
 
 - **tdd**: Iron Law TDD - tests first, always (MANDATORY)
 - **verification**: Evidence-based validation (MANDATORY)
-- **solution-capture**: Capture learnings from novel problems (as needed)
+- **mycelium-capture**: Capture learnings from novel problems (as needed)
 
 ## Quick Example
 
