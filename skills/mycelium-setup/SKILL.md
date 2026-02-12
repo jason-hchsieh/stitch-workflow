@@ -1,9 +1,8 @@
 ---
 name: mycelium-setup
-description: Bootstraps new or existing projects with .mycelium/ workflow structure. Use when user says "setup mycelium", "initialize project", "create mycelium structure", "bootstrap workflow", or when starting a new project. Creates context files, plans directory, solutions library, and learning store. Supports --resume for interrupted setups.
+description: Bootstraps new or existing projects with .mycelium/ workflow structure. Use when user says "setup mycelium", "initialize project", "create mycelium structure", "bootstrap workflow", or when starting a new project. Creates context files, plans directory, solutions library, and learning store through interactive configuration.
 license: MIT
 version: 0.9.0
-argument-hint: "[--resume]"
 allowed-tools: ["Skill", "Read", "Write", "Edit", "Bash", "Glob", "Grep", "AskUserQuestion"]
 metadata:
   author: Jason Hsieh
@@ -17,11 +16,6 @@ metadata:
 Bootstrap a new or existing project with the mycelium workflow structure.
 
 ## Your Task
-
-### Parse Arguments
-
-- `--resume`: Continue interrupted setup from last checkpoint
-- Otherwise: Start fresh setup
 
 ### Setup Workflow
 
@@ -574,9 +568,9 @@ The `setup_state.json` enables resume functionality:
 
 ## Resume Support
 
-When resuming (user passes `--resume` or state shows "in_progress"):
+When resuming (state shows "in_progress"):
 
-1. Load setup_state.json
+1. Automatically detect in-progress setup from setup_state.json
 2. Show progress:
    ```
    Resuming setup...
@@ -613,8 +607,8 @@ When resuming (user passes `--resume` or state shows "in_progress"):
 - Provide examples of good answers
 
 **Interrupted**:
-- State is saved after each answer
-- User can resume with `--resume` flag
+- State is saved after each answer in setup_state.json
+- Running `/mycelium-setup` again automatically resumes from checkpoint
 - No data loss
 
 ---
@@ -634,15 +628,14 @@ When resuming (user passes `--resume` or state shows "in_progress"):
 ## Quick Example
 
 ```bash
-/mycelium-setup          # New setup
-/mycelium-setup --resume # Continue interrupted setup
+/mycelium-setup  # Setup project (auto-resumes if interrupted)
 ```
 
 ## Important Notes
 
 - **Git is mandatory** - Mycelium requires git for worktrees and version control
 - **One question at a time** - Interactive setup asks questions sequentially
-- **State saved after each answer** - Interruption-safe with resume capability
+- **State saved after each answer** - Automatically resumes if interrupted
 - **Brownfield detection** - Auto-detects project info from existing files
 - Ask ONE question at a time, not all at once
 - Save state after EACH answer (enables resume)
