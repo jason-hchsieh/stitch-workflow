@@ -205,136 +205,174 @@ Analyze the current directory to determine if this is a new or existing project.
 
 ### Step 3: Interactive Setup
 
-Ask questions ONE AT A TIME in sections. Save state after EACH answer to [setup_state.json][setup-state-schema].
+**CRITICAL RULES:**
+1. ✅ Ask **ONE** question per turn
+2. ✅ Wait for user response before proceeding
+3. ✅ Offer 2-4 suggested answers + "Type your own" option
+4. ✅ Maximum 5 questions per section
+5. ✅ Update [setup_state.json][setup-state-schema] after EACH successful answer
+6. ✅ Validate file write succeeded before continuing
+
+Ask questions ONE AT A TIME following this pattern:
 
 #### PRODUCT Section (what & why)
 
-**Question 1: Project Identity**
+**Question 1 of 4: Project Identity**
 ```
 What is this project?
-Provide: name and one-line description
 
-Example: "TaskFlow - A workflow automation tool for development teams"
+Suggested answers:
+  1. TaskFlow - A workflow automation tool
+  2. DataHub - A data integration platform
+  3. CodeReview - An automated code review system
+  4. Type your own answer
+
+Enter 1-4:
 ```
 
-Save to [setup_state.json][setup-state-schema]:
+**After user responds:**
+1. If 1-3: Extract project name and description
+2. If 4: Prompt for custom "ProjectName - Description"
+3. Save to [setup_state.json][setup-state-schema]:
+   ```json
+   {
+     "current_section": "product",
+     "current_question": 2,
+     "completed_sections": [],
+     "answers": {
+       "project_identity": "TaskFlow - A workflow automation tool"
+     }
+   }
+   ```
+4. Verify write succeeded: `const state = await readFile('setup_state.json')`
+5. If write failed: Error "❌ Failed to save answer, cannot continue"
+6. Continue to Question 2
+
+**Question 2 of 4: Problem Statement**
+```
+What problem does this project solve?
+
+Suggested answers:
+  1. Manual processes waste developer time
+  2. Lack of integration between tools
+  3. Poor visibility into workflows
+  4. Type your own answer
+
+Enter 1-4:
+```
+
+**After user responds:** Save answer, update `current_question: 3`, verify, continue
+
+**Question 3 of 4: Target Users**
+```
+Who are the target users?
+
+Suggested answers:
+  1. Software development teams (5-50 people)
+  2. DevOps engineers
+  3. Engineering managers
+  4. Type your own answer
+
+Enter 1-4:
+```
+
+**After user responds:** Save answer, update `current_question: 4`, verify, continue
+
+**After Question 3 (Target Users) complete:**
+Update state:
 ```json
 {
-  "answers": {
-    "product_name": "TaskFlow",
-    "product_description": "A workflow automation tool for development teams"
-  }
+  "current_section": "tech_stack",
+  "current_question": 1,
+  "completed_sections": ["product"]
 }
 ```
 
-**Question 2: Problem Statement**
-```
-What problem does it solve?
-Describe the core problem this project addresses.
-
-Example: "Manual workflow coordination wastes 30% of developer time"
-```
-
-**Question 3: Target Users**
-```
-Who are the target users?
-Be specific about who will use this.
-
-Example: "Software development teams of 5-50 people"
-```
-
-**Question 4: Key Goals**
-```
-What are the key goals? (3-5 measurable objectives)
-
-Example:
-- Reduce manual workflow overhead by 50%
-- Support 10+ integrations by v1.0
-- 99.9% uptime SLA
-```
+**Note:** Goals are optional and can be added later to `.mycelium/context/product.md`
 
 #### TECH STACK Section (with what)
 
-**Question 5: Primary Language(s)**
+**For brownfield projects:** Detect language/framework from files first, then confirm with user.
+
+**Question 1 of 4: Primary Language**
 ```
-What programming language(s)?
+What programming language?
 
-Example: TypeScript, Python, Go
-```
+Suggested answers:
+  1. TypeScript
+  2. Python
+  3. Go
+  4. Type your own (JavaScript, Rust, Java, etc.)
 
-For brownfield: Detect from existing files and confirm.
-
-**Question 6: Framework(s)**
-```
-What framework(s) or libraries?
-
-Example: React, Next.js, FastAPI, Gin
-```
-
-For brownfield: Detect from package.json/requirements.txt and confirm.
-
-**Question 7: Database**
-```
-What database (if any)?
-
-Example: PostgreSQL, MongoDB, Redis, None
+Enter 1-4:
 ```
 
-**Question 8: Infrastructure/Deployment**
-```
-Where will this be deployed?
+**After user responds:** Save answer, update `current_question: 2`, verify, continue
 
-Example: AWS (ECS), Vercel, Docker, Local only
+**Question 2 of 4: Framework**
+```
+What framework or library?
+
+Suggested answers:
+  1. React + Next.js
+  2. FastAPI (Python)
+  3. Gin (Go)
+  4. Type your own
+
+Enter 1-4:
 ```
 
-For brownfield: Check for Dockerfile, vercel.json, etc.
+**After Question 2 (Framework) complete:**
+Update state:
+```json
+{
+  "current_section": "workflow",
+  "current_question": 1,
+  "completed_sections": ["product", "tech_stack"]
+}
+```
+
+**Note:** Database and infrastructure are optional and can be added later to `.mycelium/context/tech-stack.md`
 
 #### WORKFLOW Section (how to work)
 
-**Question 9: TDD Strictness**
+**Question 1 of 1: TDD Strictness**
 ```
 How strict should TDD enforcement be?
 
-Options:
-- strict: All code must follow RED-GREEN-REFACTOR (recommended)
-- flexible: TDD for new features, optional for fixes
-- none: No TDD enforcement
+Suggested answers:
+  1. strict - All code follows RED-GREEN-REFACTOR (recommended)
+  2. flexible - TDD for new features, optional for fixes
+  3. none - No TDD enforcement
+  4. Type your own approach
+
+Enter 1-4:
 ```
 
 Default: `strict`
 
-**Question 10: Commit Strategy**
-```
-What commit message style?
+**After user responds:**
+1. Save answer, update:
+   ```json
+   {
+     "current_section": null,
+     "current_question": null,
+     "completed_sections": ["product", "tech_stack", "workflow"],
+     "answers": {
+       "tdd_strictness": "strict",
+       "commit_style": "conventional",
+       "review_required": "recommended",
+       "coverage_target": 80
+     }
+   }
+   ```
+2. Automatically apply recommended defaults:
+   - Commit style: `conventional` (feat/fix/chore format)
+   - Code review: `recommended` (for major changes)
+   - Coverage target: `80%`
+3. Verify, continue to Step 4 (Create Directory Structure)
 
-Options:
-- conventional: feat/fix/chore format (recommended)
-- descriptive: Clear descriptive messages
-- atomic: Small, focused commits
-```
-
-Default: `conventional`
-
-**Question 11: Code Review**
-```
-Code review requirements?
-
-Options:
-- required: All changes need review
-- recommended: Review for major changes
-- optional: No review requirement
-```
-
-Default: `recommended`
-
-**Question 12: Coverage Target**
-```
-Test coverage target?
-
-Example: 80% (recommended), 90%, 70%
-```
-
-Default: `80%`
+**Note:** Advanced settings (commit style, review requirements, coverage) use recommended defaults. Edit `.mycelium/context/workflow.md` to customize later.
 
 ---
 
