@@ -99,86 +99,92 @@ Map `current_phase` in `state.json` to named phases:
 
 ---
 
-## Phase 1: Planning
+## Phase 0: Context Loading
 
-### Input Processing
+**Invoke mycelium-context-load:**
 
-**Parse task description**:
-```
-User input: "Add user authentication with JWT"
+```javascript
+// Set full workflow mode
+state.invocation_mode = "full"
+state.current_phase = "context_loading"
 
-Extract:
-- Feature: User authentication
-- Technical approach: JWT
-- Scope: {to be clarified}
-```
-
-### Load Context
-
-**Read project context**:
-```bash
-# Project information
-cat .mycelium/context/product.md
-cat .mycelium/context/tech-stack.md
-cat .mycelium/context/workflow.md
-cat CLAUDE.md
-
-# Prior knowledge
-cat .mycelium/solutions/patterns/critical-patterns.md
-ls .mycelium/solutions/
-
-# Session state
-cat .mycelium/state.json
+// Start workflow with Phase 0
+invoke("mycelium-context-load")
 ```
 
-### Discover Capabilities
+**What Phase 0 does:**
+- Loads project context (product.md, tech-stack.md, workflow.md, CLAUDE.md)
+- Loads institutional knowledge (solutions/, learned/)
+- Discovers ALL capabilities (skills, agents, MCPs)
+- Caches everything in state.json `discovered_capabilities`
+- Chains to Phase 1 (Clarify Request)
 
-**Scan the plugin cache filesystem to discover ALL available skills and agents:**
+**Output:**
+- Context loaded and available
+- Capabilities cached for use by planning phase
+- Workflow continues automatically to Phase 1
 
-1. **Read plugin registry** - Read `~/.claude/plugins/installed_plugins.json`. For each entry:
-   - Extract `pluginName` = part before `@` in the key (e.g., `mycelium` from `mycelium@jasonhch-plugins`)
-   - Extract `installPath` from the first array element
+---
 
-2. **Scan for skills** - For each plugin, glob `{installPath}/skills/*/SKILL.md`. For each match:
-   - Read the YAML frontmatter to extract `name` and `description`
-   - Fully-qualified name: `{pluginName}:{name}` (e.g., `git:commit-and-push`)
+## Phase 1: Clarify Request
 
-3. **Scan for agents** - For each plugin, glob `{installPath}/agents/**/*.md`. For each match:
-   - Read the YAML frontmatter to extract `name` and `description`
-   - Fully-qualified name: `{pluginName}:{name}` (e.g., `mycelium:learning-agent`)
+**Invoked automatically by Phase 0 (via chain).**
 
-4. **Add built-in agents** - These are NOT in the plugin cache. Read the Task tool description and extract the built-in agent types: Bash, general-purpose, Explore, Plan, claude-code-guide, statusline-setup.
+**What Phase 1 does** (see mycelium-clarify):
+- Asks clarifying questions ONE at a time
+- Uses cached capabilities from Phase 0
+- Determines if Phase 1.5 (Research) needed
+- Chains to Phase 1.5 or Phase 2
 
-5. **Check for MCP tools** - These are NOT in the plugin cache. Check the system prompt for any MCP server tools listed as additional tools.
+**Decision gate** (Autonomous):
+```
+Requirements clear? (yes/no)
+- If yes: Auto-proceed to Phase 2 (Planning)
+- If no: Ask clarifying questions
 
-6. **Cache discovered capabilities** in `.mycelium/state.json`:
-```json
-{
-  "discovered_capabilities": {
-    "skills": [
-      { "name": "mycelium:planning", "description": "..." },
-      { "name": "git:commit-and-push", "description": "..." }
-    ],
-    "agents": [
-      { "name": "general-purpose", "source": "built-in", "description": "..." },
-      { "name": "mycelium:learning-agent", "source": "plugin", "description": "..." }
-    ],
-    "mcp_tools": [
-      { "name": "tool-name", "server": "mcp-server-name", "description": "..." }
-    ]
-  }
-}
+Example:
+  "Add user authentication" is AMBIGUOUS
+  - Which auth method? (OAuth, JWT, session)
+  - Registration included?
+  - Password requirements?
+
+  → STOP and ask
 ```
 
-7. **Use cached capabilities** when assigning agents/skills to tasks in the plan. Only assign capabilities that exist in the discovered list.
+**Decision gate** (Interactive):
+```
+Questions answered?
 
-### Execute Planning Workflow
+[Show clarified requirements]
 
-**Execute planning workflow** (see mycelium-plan):
-1. Clarify requirements (Phase 1)
-2. Smart research gate (Phase 2)
-3. Discover capabilities (Phase 3) - use cached capabilities from above
-4. Create plan (Phase 4)
+Approve? (yes/no/modify)
+```
+
+---
+
+## Phase 1.5: Research (Optional)
+
+**Invoked by Phase 1 if needed.**
+
+**What Phase 1.5 does** (within mycelium-clarify):
+- WebSearch for unfamiliar technology
+- WebFetch for specific documentation
+- Summarizes findings
+- Chains to Phase 2 (Planning)
+
+---
+
+## Phase 2: Planning & Assignment
+
+**Invoked automatically by Phase 1 (via chain).**
+
+**What Phase 2 does** (see mycelium-plan):
+1. Load cached capabilities from state.json
+2. Decompose request into tasks with dependencies
+3. Assign agent/skills/model to each task
+4. Verify all assignments exist in cache
+5. Create plan file
+6. Chain to Phase 3 (Implementation)
 
 **Decision gate** (Autonomous):
 ```
@@ -208,6 +214,7 @@ Approve plan? (yes/no/modify)
 - Plan saved to `.mycelium/plans/YYYY-MM-DD-{track_id}.md`
 - Track ID stored in state.json
 - Plan registered in `session_state.plans[]` (auto-pauses any previously active plan)
+- Chains to Phase 3 (Implementation)
 
 **Error handling**:
 - If planning fails: Report error, STOP
@@ -216,7 +223,9 @@ Approve plan? (yes/no/modify)
 
 ---
 
-## Phase 2: Implementation
+## Phase 3: Implementation
+
+**Invoked automatically by Phase 2 (via chain).**
 
 ### Pre-flight Checks
 
@@ -404,7 +413,34 @@ Please provide API key and resume.
 
 ---
 
-## Phase 3: Review
+## Phase 4.5: Verification
+
+**Invoked automatically within Phase 3 (mycelium-work).**
+
+**What Phase 4.5 does** (verification skill, loaded by mycelium-work):
+- Run all tests (show actual output)
+- Check coverage ≥80%
+- Run linters
+- Verify build
+- Evidence-based validation (NO "should work")
+
+---
+
+## Phase 4.5B: Context Sync
+
+**Auto-invoked when context >80% (within mycelium-work).**
+
+**What Phase 4.5B does** (context skill):
+- Summarize work ≤500 tokens
+- Update progress.md
+- Spawn fresh agent with compressed context
+- Continue work without context bloat
+
+---
+
+## Phase 5: Review
+
+**Invoked automatically after Phase 3 completes.**
 
 ### Invoke Review Skill
 
@@ -496,85 +532,87 @@ If P1 issues or user chooses to fix:
 - Verify fix doesn't break existing tests
 - Re-run affected review agents
 - Confirm issue resolved
+- Chain to Phase 6 (Finalization)
 
 ---
 
-## Phase 4: Knowledge Capture
+## Phase 6: Finalization
 
-### Execute Knowledge Extraction
+**Invoked automatically after Phase 5 completes.**
 
-**Execute knowledge extraction** (see mycelium-capture):
+### Invoke Finalize Skill
 
-1. **Analyze completed work**:
-   ```bash
-   # Load track information
-   cat .mycelium/plans/{track_file}.md
+**Load**: `mycelium-finalize` skill
 
-   # Get all commits
-   git log main..{track_branch}
+**What Phase 6 does:**
+1. Create git commit with Co-Author
+2. Create pull request (via gh/glab/tea or manual)
+3. Chain to Phase 6E (Pattern Detection)
 
-   # Review changes
-   git diff main..{track_branch}
-   ```
+**Output:**
+- Commit SHA saved to state.json
+- PR URL saved to state.json
+- Chains automatically to Phase 6E
 
-2. **Identify learnings**:
-   - New patterns created
-   - Problems solved
-   - Gotchas encountered
-   - Performance optimizations
-   - Security considerations
+---
 
-3. **Categorize and save**:
-   ```
-   Captured:
-   - Pattern: JWT token validation
-     → .mycelium/solutions/patterns/auth-patterns.md
+## Phase 6E: Pattern Detection
 
-   - Solution: Session timeout handling
-     → .mycelium/solutions/security-issues/session-timeout.md
+**Invoked automatically after Phase 6 completes.**
 
-   - Performance: Database query optimization
-     → .mycelium/solutions/performance-issues/query-batch.md
-   ```
+### Invoke Patterns Skill
 
-4. **Update capabilities**:
-   ```json
-   // state.json
-   {
-     "discovered_capabilities": {
-       "patterns": [
-         "jwt-authentication",
-         "session-management",
-         "password-hashing"
-       ]
-     }
-   }
-   ```
+**Load**: `mycelium-patterns` skill
 
-### Decision Gates
+**What Phase 6E does:**
+1. Scan `.mycelium/solutions/**/*` for similar solutions
+2. Identify patterns with 3+ occurrences
+3. Update `critical-patterns.md` with new patterns
+4. Recommend skill generation for 5+ occurrences
+5. Chain to Phase 6F (Store Knowledge)
 
-**Autonomous mode**:
+**Output:**
+- Patterns detected and documented
+- Skill candidates recommended
+- Chains automatically to Phase 6F
+
+---
+
+## Phase 6F: Store Learned Knowledge
+
+**Invoked automatically after Phase 6E completes.**
+
+### Invoke Capture Skill
+
+**Load**: `mycelium-capture` skill
+
+**What Phase 6F does:**
+1. Store solutions to `.mycelium/solutions/{category}/`
+2. Capture decisions to `.mycelium/learned/decisions/`
+3. Capture conventions to `.mycelium/learned/conventions/`
+4. Update preferences in `.mycelium/learned/preferences.yaml`
+5. Track anti-patterns in `.mycelium/learned/anti-patterns/`
+6. Record effective prompts in `.mycelium/learned/effective-prompts/`
+7. Mark workflow complete (`current_phase: "completed"`, `workflow_complete: true`)
+
+**Important:** This phase does NOT handle:
+- ❌ Commit creation (done in Phase 6)
+- ❌ PR creation (done in Phase 6)
+- ❌ Pattern detection (done in Phase 6E)
+
+**Output:**
+- Knowledge stored in appropriate locations
+- Workflow marked complete
+- No further phase chaining (workflow ends)
+
+**Output example:**
 ```
-Capturing learnings...
-   3 patterns extracted
-   2 solutions documented
-   Knowledge base updated
-```
+✅ Knowledge captured:
+   • 3 solutions stored
+   • 2 decisions documented
+   • 1 convention captured
 
-**Interactive mode**:
-```
-Learnings captured:
-
-Patterns:
-- JWT authentication with refresh tokens
-- Password hashing with bcrypt
-- Session timeout handling
-
-Solutions:
-- Optimized user list query (N+1 → single query)
-- Rate limiting middleware
-
-Review captured knowledge? (yes/no)
+Workflow complete!
 ```
 
 ---
@@ -588,24 +626,46 @@ Workflow Complete!
 
 Task: Add user authentication with JWT
 
-Planning:
-   Created 8 tasks across 3 phases
-   TDD test strategy defined
+Phase 0: Context Loading
+   ✓ Project context loaded
+   ✓ 15 solutions discovered
+   ✓ 13 skills, 7 agents cached
 
-Implementation:
-   8/8 tasks completed
-   All tests passing (45 tests)
-   Coverage: 85% (target: 80%)
-   12 commits
+Phase 1: Clarify Request
+   ✓ Requirements clarified
+   ✓ No external research needed
 
-Review:
-   Spec compliance: PASS
-   Quality score: 8.5/10
-   0 P1, 4 P2, 3 P3 issues
+Phase 2: Planning & Assignment
+   ✓ Created 8 tasks across 3 phases
+   ✓ Capabilities assigned (agent/skills/model per task)
+   ✓ TDD test strategy defined
 
-Knowledge:
-   3 patterns captured
-   2 solutions documented
+Phase 3: Implementation
+   ✓ 8/8 tasks completed
+   ✓ All tests passing (45 tests)
+   ✓ Coverage: 85% (target: 80%)
+
+Phases 4.5 & 4.5B: Verification & Context Sync
+   ✓ Tests verified with evidence
+   ✓ Context managed (no bloat)
+
+Phase 5: Review
+   ✓ Spec compliance: PASS
+   ✓ Quality score: 8.5/10
+   ✓ 0 P1, 4 P2, 3 P3 issues
+
+Phase 6: Finalization
+   ✓ Commit: abc1234
+   ✓ PR: #123 created
+
+Phase 6E: Pattern Detection
+   ✓ 2 patterns detected
+   ✓ critical-patterns.md updated
+
+Phase 6F: Store Knowledge
+   ✓ 3 solutions stored
+   ✓ 2 decisions documented
+   ✓ Knowledge base updated
 
 Next: Deploy or continue with next feature?
 ```
