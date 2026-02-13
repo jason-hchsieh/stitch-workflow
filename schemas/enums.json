@@ -83,7 +83,7 @@
       "description": "Current session status"
     },
     "SetupSection": {
-      "enum": ["product", "tech_stack", "workflow", "style_guides"],
+      "enum": ["product", "tech_stack", "workflow"],
       "description": "Bootstrap setup sections"
     },
     "RemoteProvider": {

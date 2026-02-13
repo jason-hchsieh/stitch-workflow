@@ -25,31 +25,147 @@ This workflow guides you through bootstrapping a project with the mycelium workf
 
 ## Phase 1: Bootstrap
 
-### Step 1: Check for Existing Setup
+### Step 0: Pre-flight Check
 
-First, check if [setup_state.json][setup-state-schema] exists:
+Before starting setup, check if `.mycelium/` already exists and assess its completeness.
 
-```bash
-# Check for existing setup
-ls .mycelium/setup_state.json
+#### If .mycelium/ does not exist
+→ Continue to Step 1 (fresh setup)
+
+#### If .mycelium/ exists - Check completeness
+
+**Minimum required files:**
+- `.mycelium/state.json`
+- `.mycelium/context/product.md`
+- `.mycelium/context/tech-stack.md`
+- `.mycelium/context/workflow.md`
+- `.mycelium/solutions/patterns/critical-patterns.md`
+
+See [.mycelium/ directory structure][mycelium-dir] for complete specification.
+
+**If all required files present (complete structure):**
+```
+✅ Mycelium structure already exists and is complete.
+
+Structure:
+  ✓ .mycelium/state.json
+  ✓ .mycelium/context/product.md
+  ✓ .mycelium/context/tech-stack.md
+  ✓ .mycelium/context/workflow.md
+  ✓ .mycelium/solutions/patterns/critical-patterns.md
+  ✓ .mycelium/plans/
+  ✓ .mycelium/solutions/
+
+Next steps:
+  • Review context files: .mycelium/context/
+  • Start planning: /mycelium-plan [description]
+  • Full workflow: /mycelium-go [description]
+```
+→ **EXIT** (setup already complete)
+
+**If partially complete (missing required files):**
+```
+⚠️  Incomplete .mycelium/ structure found.
+
+Present:
+  ✓ .mycelium/state.json
+  ✓ .mycelium/context/product.md
+
+Missing:
+  ✗ .mycelium/context/tech-stack.md
+  ✗ .mycelium/context/workflow.md
+  ✗ .mycelium/solutions/patterns/critical-patterns.md
+
+Options:
+  1. Complete the missing files (recommended)
+  2. Start fresh (deletes existing .mycelium/)
+  3. Exit (manual fix required)
+
+Enter 1-3:
 ```
 
-This file tracks setup progress, current section, and collected answers. See [setup state schema][setup-state-schema] for full structure.
+**Handle user choice:**
+- **Option 1 (Complete)**: Continue to Step 4 (Create Directory Structure) to create only missing files
+- **Option 2 (Start fresh)**: `rm -rf .mycelium/`, then continue to Step 1
+- **Option 3 (Exit)**: Show guidance on how to manually fix, then EXIT
 
-**If exists and status is "completed"**:
-- Inform user setup is already complete
-- Suggest `/mycelium-plan` for next steps
-- EXIT
+---
 
-**If exists and status is "in_progress"**:
-- Load [setup_state.json][setup-state-schema]
-- Show what's been completed
-- Offer to resume from checkpoint
-- Continue from current_section and current_question
+### Step 1: Check for Existing Setup
 
-**If not exists**:
-- Start fresh setup
-- Continue to Step 2
+Check if [setup_state.json][setup-state-schema] exists and determine next action.
+
+```
+┌─────────────────────────────────────┐
+│ Does setup_state.json exist?       │
+└─────────┬───────────────────────────┘
+          │
+    ┌─────┴─────┐
+    NO          YES
+    │           │
+    │     ┌─────┴──────────────────────┐
+    │     │ Check status field         │
+    │     └─────┬──────────────────────┘
+    │           │
+    │     ┌─────┴─────┐
+    │     │           │
+    │  "completed"  "in_progress"
+    │     │           │
+    │     │           │
+┌───▼─────▼───┐   ┌──▼─────────────────┐
+│ Path A:     │   │ Path C:            │
+│ Start fresh │   │ Resume from        │
+│ setup       │   │ checkpoint         │
+│             │   │                    │
+│ → Step 2    │   │ Show progress      │
+│             │   │ → current_section  │
+└─────────────┘   └────────────────────┘
+                  │
+  ┌───────────────┘
+  │ Path B:
+  │ Setup complete
+  │
+  │ Info: Already done
+  │ → EXIT
+  └────────────────
+```
+
+#### Path A: No setup_state.json
+→ Fresh setup, continue to **Step 2**
+
+#### Path B: setup_state.json exists with status="completed"
+```
+✅ Setup already complete!
+
+Completed: {completed_at}
+Files created: {count} files
+
+Next steps:
+  /mycelium-plan [description]
+  /mycelium-go [description]
+```
+→ **EXIT**
+
+#### Path C: setup_state.json exists with status="in_progress"
+```
+⏸️  Resuming interrupted setup...
+
+Progress:
+  ✓ {completed_sections}
+  → {current_section} (question {current_question})
+
+Last updated: {last_updated}
+```
+
+**Options:**
+1. **Resume** - Continue from where you left off
+2. **Restart** - Delete state and start fresh
+3. **Exit** - Manual intervention needed
+
+Ask user choice → handle accordingly:
+- **Option 1 (Resume)**: Load answers, continue from `current_section` and `current_question`
+- **Option 2 (Restart)**: Delete `.mycelium/setup_state.json`, continue to **Step 2**
+- **Option 3 (Exit)**: Show current state details, **EXIT**
 
 ---
 
@@ -386,22 +502,63 @@ After discovering:
 
 ---
 
-### Step 5: Initialize Git (MANDATORY)
+### Step 5: Initialize Git (OPTIONAL but RECOMMENDED)
 
-Git is REQUIRED for the mycelium workflow.
+Git is **strongly recommended** for the mycelium workflow but not required.
+
+#### With Git Enabled
+
+**Benefits:**
+- ✅ Version control for all changes
+- ✅ Parallel implementation via `git worktree`
+- ✅ Automatic commit creation with Co-Author attribution
+- ✅ Branch-based feature development
+- ✅ Easy rollback of changes
+- ✅ Track history of solutions and patterns
+
+#### Without Git
+
+**Limitations:**
+- ❌ No worktree support (cannot run tasks in parallel)
+- ❌ No automatic commits
+- ❌ No version control or rollback
+- ⚠️  Single-threaded implementation only
+- ⚠️  Manual tracking of changes required
+
+**Setup still works without git** - all core workflow features function, but parallelization and version control are unavailable.
+
+#### Initialize Git
 
 ```bash
-# Check if git exists
+# Check if git repository exists
 if [ ! -d .git ]; then
+  echo "Git repository not found."
+  echo ""
+  echo "Initialize git now? (recommended)"
+  echo "  • Enables parallel implementation"
+  echo "  • Automatic version control"
+  echo "  • Easier rollback"
+  echo ""
+  # Ask user (use AskUserQuestion tool)
+  # If yes:
   git init
   echo "✓ Initialized git repository"
+  git checkout -b main
+  # Save to setup_state.json: git_enabled: true
+  # If no:
+  echo "⚠️  Continuing without git (parallel features disabled)"
+  # Save to setup_state.json: git_enabled: false
+else
+  echo "✓ Git repository found"
+  # Verify main/master branch exists
+  git branch --show-current || git checkout -b main
+  # Save to setup_state.json: git_enabled: true
 fi
 
-# Verify main/master branch exists
-git branch --show-current || git checkout -b main
-
-# Create/update .gitignore
+# If git_enabled, create/update .gitignore
 ```
+
+#### Create/Update .gitignore (if git_enabled)
 
 **Add to .gitignore**:
 ```gitignore
@@ -436,7 +593,8 @@ Add stack-specific ignores based on detected language:
 - Go: vendor/, *.exe
 - Rust: target/, Cargo.lock (for apps)
 
-**Create initial commit**:
+#### Create Initial Commit (if git_enabled)
+
 ```bash
 git add .mycelium/ CLAUDE.md .gitignore
 git commit -m "Initialize project with mycelium workflow
@@ -551,7 +709,7 @@ The [setup_state.json][setup-state-schema] enables resume functionality by track
 {
   "status": "in_progress",
   "project_type": "greenfield|brownfield",
-  "current_section": "product|tech_stack|workflow|finalize",
+  "current_section": "product|tech_stack|workflow",
   "current_question": 2,
   "completed_sections": ["product"],
   "answers": {
@@ -597,8 +755,9 @@ When resuming (state shows "in_progress"):
 
 **Git init fails**:
 - Show error message
-- Ask user to resolve git issues first
-- STOP - cannot proceed without git
+- Offer to continue without git (with feature limitations)
+- If user declines git: set git_enabled=false, continue setup
+- If user wants git: suggest resolving git issues, then re-run setup
 
 **Directory not writable**:
 - Check permissions
@@ -637,7 +796,7 @@ When resuming (state shows "in_progress"):
 
 ## Important Notes
 
-- **Git is mandatory** - Mycelium requires git for worktrees and version control
+- **Git is recommended but optional** - Mycelium works without git, but parallel features and version control require it
 - **One question at a time** - Interactive setup asks questions sequentially
 - **State saved after each answer** - Automatically resumes if interrupted
 - **Brownfield detection** - Auto-detects project info from existing files
@@ -647,7 +806,7 @@ When resuming (state shows "in_progress"):
 - Be conversational but concise
 - Do NOT proceed to planning - setup only creates structure
 - Do NOT create application code - only workflow infrastructure
-- Git is MANDATORY - cannot proceed without it
+- Without git: no worktrees, no auto-commits, single-threaded only
 - All file paths are absolute when saved to state
 
 ---

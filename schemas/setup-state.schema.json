@@ -78,6 +78,11 @@
       "description": "Values auto-detected from existing files (brownfield)",
       "additionalProperties": true
     },
+    "git_enabled": {
+      "type": "boolean",
+      "description": "Whether git was initialized during setup",
+      "default": false
+    },
     "started_at": {
       "type": "string",
       "format": "date-time"

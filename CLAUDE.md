@@ -47,16 +47,67 @@ git worktree remove .worktrees/<name>           # Cleanup after merge
 
 ### Workflow Phases
 
-The system implements a 7-phase workflow (Phase -1 through Phase 6E):
+The system implements a **12-phase workflow** with true phase isolation - one skill per phase:
 
-- **Phase -1**: Project Bootstrap - Initialize `.mycelium/` structure
-- **Phase 0**: Context Loading - Load project context + discover capabilities (cached)
-- **Phase 1**: Clarify Request - Interactive clarification, one question at a time
-- **Phase 2**: Planning - Decompose request → features → tasks (2-5 min atomic units)
-- **Phase 3**: Implementation - Parallel execution via git worktrees OR single feature branch
-- **Phase 4.5**: Verification - Evidence-based testing (no "should work" claims)
-- **Phase 5**: Two-Stage Review - Spec compliance (gate) + code quality (parallel)
-- **Phase 6**: Finalization - Git commit/PR + pattern detection + knowledge capture
+**Bootstrap & Context:**
+- **Phase -1**: Project Bootstrap (`mycelium-setup`) - Initialize `.mycelium/` structure via interactive Q&A
+- **Phase 0**: Context Loading (`mycelium-context-load`) - Load project context + discover all capabilities (skills, agents, MCPs) → cache in state.json
+- **Phase 1**: Clarify Request (`mycelium-clarify`) - Ask clarifying questions ONE at a time, using cached capabilities
+- **Phase 1.5**: Research (optional, within `mycelium-clarify`) - WebSearch/WebFetch for unfamiliar tech
+
+**Planning & Implementation:**
+- **Phase 2**: Planning & Assignment (`mycelium-plan`) - Decompose request → tasks, assign agent/skills/model per task
+- **Phase 3**: Implementation (`mycelium-work`) - Execute tasks with TDD enforcement (RED → GREEN → REFACTOR)
+- **Phase 4.5**: Verification (internal, `verification` skill) - Evidence-based testing with actual output
+- **Phase 4.5B**: Context Sync (auto at 80%, `context` skill) - Summarize + spawn fresh agent if needed
+
+**Review & Finalization:**
+- **Phase 5**: Two-Stage Review (`mycelium-review`) - Stage 1: Spec compliance (gate) + Stage 2: Code quality (parallel agents)
+- **Phase 6**: Finalization (`mycelium-finalize`) - Create git commit with Co-Author + pull request
+- **Phase 6E**: Pattern Detection (`mycelium-patterns`) - Find 3+ similar solutions, update critical-patterns.md, recommend skill generation
+- **Phase 6F**: Store Knowledge (`mycelium-capture`) - Save to solutions/, learned/, preferences.yaml
+
+**Orchestration:**
+- Full workflow: `/mycelium-go` chains all phases automatically (Phase 0 → 6F)
+- Resume workflow: `/mycelium-continue` dispatches to current phase based on state.json
+
+### Phase-to-Skill Mapping
+
+Each phase is managed by exactly one skill for clean separation of concerns:
+
+| Phase | Skill | Type | Responsibility |
+|-------|-------|------|----------------|
+| -1 | `mycelium-setup` | User-invocable | Bootstrap project structure |
+| 0 | `mycelium-context-load` | User-invocable | Load context, discover capabilities |
+| 1 | `mycelium-clarify` | User-invocable | Clarify requirements, determine research |
+| 1.5 | (within `mycelium-clarify`) | Internal | Optional external research |
+| 2 | `mycelium-plan` | User-invocable | Plan tasks, assign capabilities |
+| 3 | `mycelium-work` | User-invocable | Execute tasks with TDD |
+| 4.5 | `verification` | Internal | Evidence-based validation |
+| 4.5B | `context` | Internal | Context management (auto) |
+| 5 | `mycelium-review` | User-invocable | Two-stage review |
+| 6 | `mycelium-finalize` | User-invocable | Commit + PR creation |
+| 6E | `mycelium-patterns` | User-invocable | Pattern detection |
+| 6F | `mycelium-capture` | User-invocable | Knowledge storage |
+
+**Phase Handoff Protocol:**
+- Each skill updates `current_phase` in state.json upon completion
+- If `invocation_mode == "full"`: skill auto-invokes next phase skill
+- If `invocation_mode == "single"`: skill suggests next phase, then stops
+
+**Example workflow chain (full mode):**
+```
+mycelium-go (sets mode=full)
+  → mycelium-context-load (Phase 0)
+    → mycelium-clarify (Phase 1)
+      → mycelium-plan (Phase 2)
+        → mycelium-work (Phase 3, includes 4.5 + 4.5B)
+          → mycelium-review (Phase 5)
+            → mycelium-finalize (Phase 6)
+              → mycelium-patterns (Phase 6E)
+                → mycelium-capture (Phase 6F)
+                  → workflow_complete = true
+```
 
 ### Knowledge Compounding System
 
@@ -168,8 +219,10 @@ All workflow state lives in `.mycelium/state.json` with JSON Schema validation:
 {
   current_session: { id, started_at },
   active_tracks: [{ track_id, status, tasks }],
-  current_phase: "planning" | "implementation" | "review" | "capture",
-  checkpoints: { planning_complete, implementation_complete, ... },
+  current_phase: "context_loading" | "clarify_request" | "planning" | "implementation" |
+                 "verification" | "context_sync" | "review" | "finalization" |
+                 "pattern_detection" | "store_knowledge" | "completed",
+  checkpoints: { context_loading_complete, planning_complete, implementation_complete, ... },
   discovered_capabilities: { agents, skills, mcps },
   active_worktrees: [{ path, branch, track_id }],
   metrics: { tasks_completed, context_resets, interventions }
@@ -190,6 +243,12 @@ await updateStateField('.mycelium/state.json', 'current_phase', 'implementation'
 - Can spawn agents via `Task` tool
 - **New**: Progressive disclosure via `references/` directories for complex skills
 - **New**: Examples and Troubleshooting sections for top-priority skills
+
+**Phase Isolation Principle**:
+- **One skill manages one phase** - No multi-phase skills
+- Each skill updates `current_phase` in state.json upon completion
+- Skills chain via phase handoff protocol (full mode) or suggest next skill (single mode)
+- `invocation_mode` determines chaining behavior: `full` (auto-chain) vs `single` (stop after phase)
 
 **Internal skills** (e.g., `tdd`, `verification`):
 - Set `user-invocable: false` in frontmatter
