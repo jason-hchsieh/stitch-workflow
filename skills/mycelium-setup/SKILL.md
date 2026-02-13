@@ -1,13 +1,13 @@
 ---
 name: mycelium-setup
-description: Bootstraps new or existing projects with .mycelium/ workflow structure. Use when user says "setup mycelium", "initialize project", "create mycelium structure", "bootstrap workflow", or when starting a new project. Creates context files, plans directory, solutions library, and learning store through interactive configuration.
+description: Bootstraps new or existing projects with .mycelium/ workflow structure using progressive disclosure. Follows critical interactive rules (one question per turn, suggested answers, max 5 per section). Use when user says "setup mycelium", "initialize project", or when starting a new project. Git is optional but recommended for parallel features.
 license: MIT
-version: 0.9.0
+version: 0.10.0
 allowed-tools: ["Skill", "Read", "Write", "Edit", "Bash", "Glob", "Grep", "AskUserQuestion"]
 metadata:
   author: Jason Hsieh
   category: workflow
-  tags: [setup, initialization, project-bootstrap]
+  tags: [setup, initialization, project-bootstrap, progressive-disclosure]
   documentation: https://github.com/jason-hchsieh/mycelium
 ---
 
@@ -364,6 +364,8 @@ project/
 └── docs/                        # User documentation (if not exists)
 ```
 
+See [.mycelium/ directory structure][mycelium-dir] for complete documentation of this structure and all file purposes.
+
 #### File Templates
 
 **CLAUDE.md**:
@@ -560,38 +562,43 @@ fi
 
 #### Create/Update .gitignore (if git_enabled)
 
-**Add to .gitignore**:
-```gitignore
-# Mycelium worktrees
-.worktrees/
+Use language-specific templates from `templates/gitignore/`:
 
-# Session state (local only)
-.mycelium/state.json
+**Detect language and load appropriate template:**
+```bash
+# Node.js/TypeScript
+if [ -f package.json ]; then
+  cat templates/gitignore/node.gitignore >> .gitignore
+fi
 
-# Language/framework specific
-node_modules/
-venv/
-__pycache__/
-*.pyc
-.env
-.env.local
+# Python
+if [ -f requirements.txt ] || [ -f pyproject.toml ]; then
+  cat templates/gitignore/python.gitignore >> .gitignore
+fi
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+# Go
+if [ -f go.mod ]; then
+  cat templates/gitignore/go.gitignore >> .gitignore
+fi
 
-# OS
-.DS_Store
-Thumbs.db
+# Rust
+if [ -f Cargo.toml ]; then
+  cat templates/gitignore/rust.gitignore >> .gitignore
+fi
 ```
 
-Add stack-specific ignores based on detected language:
-- Node.js: node_modules/, dist/, build/
-- Python: venv/, __pycache__/, *.pyc, .pytest_cache/
-- Go: vendor/, *.exe
-- Rust: target/, Cargo.lock (for apps)
+**Always add mycelium-specific entries:**
+```gitignore
+# Mycelium
+.worktrees/
+.mycelium/state.json
+```
+
+**Available templates:**
+- [Node.js gitignore][node-gitignore]
+- [Python gitignore][python-gitignore]
+- [Go gitignore][go-gitignore]
+- [Rust gitignore][rust-gitignore]
 
 #### Create Initial Commit (if git_enabled)
 
@@ -834,6 +841,10 @@ When resuming (state shows "in_progress"):
 - [Tech stack template][tech-stack-template]
 - [Workflow template][workflow-template]
 - [Critical patterns template][patterns-template]
+- [Node.js gitignore][node-gitignore]
+- [Python gitignore][python-gitignore]
+- [Go gitignore][go-gitignore]
+- [Rust gitignore][rust-gitignore]
 - [Enum definitions][enums]
 
 [mycelium-dir]: ../../docs/mycelium-directory.md
@@ -845,4 +856,8 @@ When resuming (state shows "in_progress"):
 [tech-stack-template]: ../../templates/project/tech-stack.md.template
 [workflow-template]: ../../templates/project/workflow.md.template
 [patterns-template]: ../../templates/project/critical-patterns.md.template
+[node-gitignore]: ../../templates/gitignore/node.gitignore
+[python-gitignore]: ../../templates/gitignore/python.gitignore
+[go-gitignore]: ../../templates/gitignore/go.gitignore
+[rust-gitignore]: ../../templates/gitignore/rust.gitignore
 [enums]: ../../schemas/enums.json
