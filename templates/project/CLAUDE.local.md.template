@@ -1,0 +1,62 @@
+# Mycelium Workflow
+
+This project uses the mycelium workflow for AI-assisted development.
+
+## Quick Commands
+
+- `/mycelium-plan [task]` - Create implementation plan
+- `/mycelium-work` - Execute planned tasks
+- `/mycelium-review` - Review code quality
+- `/mycelium-capture` - Capture learnings
+- `/mycelium-go [task]` - Full autonomous workflow
+
+## Workflow Phases
+
+1. **Context Loading** - Load project context and discover capabilities
+2. **Clarify Request** - Ask clarifying questions if needed
+3. **Planning** - Break down work into tasks
+4. **Implementation** - TDD implementation with verification
+5. **Review** - Two-stage quality review
+6. **Finalization** - Commit and PR creation
+7. **Pattern Detection** - Identify recurring patterns
+8. **Knowledge Storage** - Capture learnings
+
+## Project Context
+
+Context files: `.mycelium/context/`
+- `product.md` - What and why
+- `tech-stack.md` - With what
+- `workflow.md` - How to work
+
+## State Management
+
+Session state: `.mycelium/state.json`
+- Current phase and track
+- Discovered capabilities
+- Active worktrees
+- Metrics
+
+## Learning System
+
+Solutions: `.mycelium/solutions/`
+- Performance issues
+- Security issues
+- Database issues
+- UI bugs
+- Integration issues
+- Patterns (critical-patterns.md)
+
+## Git Integration
+
+{{#if git_enabled}}
+- Worktrees for parallel implementation
+- Automatic commits with Co-Author
+- Branch-based feature development
+{{else}}
+⚠️  Git not enabled - parallel features unavailable
+{{/if}}
+
+## References
+
+- [Mycelium Documentation](https://github.com/jason-hchsieh/mycelium)
+- [Session State Schema](../../schemas/session-state.schema.json)

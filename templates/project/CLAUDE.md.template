@@ -1,20 +1,27 @@
 # {{PROJECT_NAME}}
 
-## Quick Context
 {{PROJECT_DESCRIPTION}}
 
-## Tech Stack
-- Language: {{PRIMARY_LANGUAGE}}
-- Framework: {{FRAMEWORK}}
-- Database: {{DATABASE}}
+## What We're Building
 
-## Development Practices
-- TDD: {{TDD_STRICTNESS}}
-- Coverage target: {{COVERAGE_TARGET}}%
-- Commit style: {{COMMIT_STYLE}}
+**Problem:** {{PROBLEM_STATEMENT}}
 
-## Key Commands
+**For:** {{TARGET_USERS}}
+
+**Using:** {{PRIMARY_LANGUAGE}} + {{FRAMEWORK}}
+
+## Key Goals
+
+{{#each KEY_GOALS}}
+- {{this}}
+{{/each}}
+
+## Getting Started
+
 ```bash
+# Install dependencies
+{{INSTALL_COMMAND}}
+
 # Run tests
 {{TEST_COMMAND}}
 
@@ -25,8 +32,14 @@
 {{BUILD_COMMAND}}
 ```
 
-## Project Structure
-See .mycelium/context/ for detailed context files.
+## Architecture
 
-## Critical Patterns
-See .mycelium/solutions/patterns/critical-patterns.md
+See `.mycelium/context/tech-stack.md` for detailed technical information.
+
+## Contributing
+
+See `.mycelium/context/workflow.md` for development workflow and standards.
+
+---
+
+*For mycelium workflow commands, see `CLAUDE.local.md`*
