@@ -48,7 +48,7 @@ flowchart TD
     Research -->|Yes| Phase15[1.5: Research]
     Research -->|No| Phase2
     Phase15 --> Phase2[2: Planning & Assignment]
-    Phase2 --> LoadCachedCaps[Load Cached Capabilities<br/>from state.json<br/>discovered in Phase 0E]
+    Phase2 --> LoadCachedCaps[Load Cached Capabilities<br/>from state.json<br/>discovered in Phase 0]
     LoadCachedCaps --> DecomposeRequest[Decompose User Request<br/>into Features]
     DecomposeRequest --> DecomposeFeatures[Decompose Each Feature<br/>into 2-5 min Tasks]
     DecomposeFeatures --> DefineGitStrategy[Define Git Strategy:<br/>• Feature = git branch<br/>• Multiple features = worktrees]

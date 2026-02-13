@@ -10,10 +10,7 @@
       "$ref": "enums.json#/definitions/SessionStatus"
     },
     "current_phase": {
-      "type": "integer",
-      "minimum": -1,
-      "maximum": 6,
-      "description": "-1=bootstrap, 0=context, 1=clarify, 2=discover, 3=plan, 4=implement, 5=review, 6=learn"
+      "$ref": "enums.json#/definitions/WorkflowPhase"
     },
     "current_track": {
       "type": "object",

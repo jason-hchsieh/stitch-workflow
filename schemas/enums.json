@@ -127,6 +127,23 @@
         "schema_validation"
       ],
       "description": "Method used to verify correctness"
+    },
+    "WorkflowPhase": {
+      "enum": [
+        "bootstrap",
+        "context_loading",
+        "clarify_request",
+        "planning",
+        "implementation",
+        "verification",
+        "context_sync",
+        "review",
+        "finalization",
+        "pattern_detection",
+        "store_knowledge",
+        "completed"
+      ],
+      "description": "Current workflow phase - used in state.json current_phase field"
     }
   }
 }

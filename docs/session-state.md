@@ -12,7 +12,21 @@ See [session-state.schema.json][schema] for the full JSON schema.
 Current session status: `active`, `paused`, `completed`, `failed`.
 
 ### `current_phase`
-Which workflow phase is active: `-1` (bootstrap), `0` (context), `1` (clarify), `2` (discover), `3` (plan), `4` (implement), `5` (review), `6` (learn).
+Which workflow phase is active:
+- `bootstrap` or `-1`: Project bootstrap (setup)
+- `context_loading` or `0`: Context loading and capability discovery
+- `clarify_request` or `1`: Clarify user requirements
+- `planning` or `2`: Planning and capability assignment
+- `implementation` or `3`: Implementation (includes verification at 4.5)
+- `verification`: Internal verification phase (within implementation)
+- `context_sync`: Internal context sync (within implementation)
+- `review` or `5`: Two-stage review
+- `finalization` or `6`: Git commit and PR creation
+- `pattern_detection` or `6E`: Pattern detection
+- `store_knowledge` or `6F`: Knowledge capture to learned/
+- `completed`: Workflow complete
+
+**Note:** Phase numbers are for reference. Use string values in state.json (e.g., `"current_phase": "planning"`).
 
 ### `current_track`
 The active plan being worked on:
