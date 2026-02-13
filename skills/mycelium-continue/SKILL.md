@@ -53,14 +53,21 @@ Resume interrupted work with context-aware scope detection.
    **Full mode** (mycelium-go):
    - Load `mycelium-go` skill (contains full workflow logic)
    - Resume from current phase checkpoint
-   - Chain through remaining phases: plan → work → review → capture
+   - Chain through remaining phases: context_loading → clarify_request → planning → implementation → verification → context_sync → review → finalization → pattern_detection → store_knowledge
 
    **Single mode** (phase-specific):
    - Map `current_phase` to skill:
-     - `planning` → Execute planning workflow (see mycelium-plan)
-     - `implementation` → Load `tdd` + `verification` skills
-     - `review` → Load `mycelium-review` skill
-     - `capture` → Execute knowledge extraction (see mycelium-capture)
+     - `context_loading` → Invoke `mycelium-context-load`
+     - `clarify_request` → Invoke `mycelium-clarify`
+     - `planning` → Invoke `mycelium-plan`
+     - `implementation` → Invoke `mycelium-work`
+     - `verification` → Invoke `mycelium-work` (verification is internal, part of work phase)
+     - `context_sync` → Invoke `mycelium-work` (context sync is internal, part of work phase)
+     - `review` → Invoke `mycelium-review`
+     - `finalization` → Invoke `mycelium-finalize`
+     - `pattern_detection` → Invoke `mycelium-patterns`
+     - `store_knowledge` → Invoke `mycelium-capture`
+     - `completed` → Output "✅ Workflow already complete!"
    - Resume from checkpoint within that phase
    - Stop after phase completion
 
@@ -71,13 +78,17 @@ Resume interrupted work with context-aware scope detection.
 Varies based on continuation scope:
 
 **Full mode**:
-- **mycelium-go**: Phase management, chaining through remaining phases
+- **mycelium-go**: Phase management, chaining through remaining phases (all 8 phases)
 
 **Single mode** (one of):
-- **mycelium-plan**: If interrupted during plan phase
-- **tdd** + **verification**: If interrupted during work phase
-- **mycelium-review**: If interrupted during review phase
-- **mycelium-capture**: If interrupted during capture phase
+- **mycelium-context-load**: If interrupted during Phase 0 (context loading)
+- **mycelium-clarify**: If interrupted during Phase 1 (clarify request)
+- **mycelium-plan**: If interrupted during Phase 2 (planning)
+- **mycelium-work**: If interrupted during Phase 3/4.5/4.5B (implementation/verification/context)
+- **mycelium-review**: If interrupted during Phase 5 (review)
+- **mycelium-finalize**: If interrupted during Phase 6 (finalization)
+- **mycelium-patterns**: If interrupted during Phase 6E (pattern detection)
+- **mycelium-capture**: If interrupted during Phase 6F (store knowledge)
 
 ## Quick Examples
 
@@ -100,10 +111,14 @@ Varies based on continuation scope:
 | Original skill | `/mycelium-continue` | `/mycelium-continue --full` |
 |---------------|---------------------|---------------------------|
 | `/mycelium-go` | Resume → finish all remaining phases | Same |
-| `/mycelium-plan` | Resume → finish plan phase only | Resume → finish all remaining phases |
-| `/mycelium-work` | Resume → finish work phase only | Resume → finish all remaining phases |
-| `/mycelium-review` | Resume → finish review phase only | Resume → finish all remaining phases |
-| `/mycelium-capture` | Resume → finish capture phase only | Resume → finish all remaining phases |
+| `/mycelium-context-load` | Resume → finish Phase 0 only | Resume → finish all remaining phases |
+| `/mycelium-clarify` | Resume → finish Phase 1 only | Resume → finish all remaining phases |
+| `/mycelium-plan` | Resume → finish Phase 2 only | Resume → finish all remaining phases |
+| `/mycelium-work` | Resume → finish Phase 3 only | Resume → finish all remaining phases |
+| `/mycelium-review` | Resume → finish Phase 5 only | Resume → finish all remaining phases |
+| `/mycelium-finalize` | Resume → finish Phase 6 only | Resume → finish all remaining phases |
+| `/mycelium-patterns` | Resume → finish Phase 6E only | Resume → finish all remaining phases |
+| `/mycelium-capture` | Resume → finish Phase 6F only | Resume → finish all remaining phases |
 
 **With `--track`**: Pauses current active plan, switches to specified plan, then follows the same scope rules above.
 
